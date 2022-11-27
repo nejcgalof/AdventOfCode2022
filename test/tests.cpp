@@ -1,3 +1,11 @@
 #include <catch2/catch.hpp>
 
-TEST_CASE("Factorials are computed", "[factorial]") { REQUIRE(1 + 2 == 3); }
+#include "aoc_day.hpp"
+#include "aoc_days.hpp"
+
+TEST_CASE("AocDays days", "[Demo]")
+{
+  AocDays days;
+  auto aoc_day = days.GetDay(-1);
+  REQUIRE(aoc_day != nullptr);
+}

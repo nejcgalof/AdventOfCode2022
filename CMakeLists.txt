@@ -121,5 +121,5 @@ add_subdirectory(src)
 option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
 if(ENABLE_TESTING)
   enable_testing()
-  add_subdirectory(test) #TODO
+  add_subdirectory(test)
 endif()
