@@ -76,8 +76,8 @@ set(PCH_HEADERS <vector> <string>)
 dynamic_project_options(
   # Note: PCH is disabled by default in developer mode because these headers become
   # globally included and they can mask other errors
-  PCH_HEADERS
-  ${PCH_HEADERS}
+  #PCH_HEADERS
+  #${PCH_HEADERS}
   ENABLE_CONAN
   # ENABLE_SANITIZER_ADDRESS
   # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR

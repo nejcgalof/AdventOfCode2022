@@ -1,9 +1,9 @@
 #include <CLI/CLI.hpp>
 #include <fmt/core.h>
 #include <internal_use_only/config.hpp>
-#include <optional>
-#include <sstream>
-#include <string_view>
+
+#include "aoc_day.hpp"
+#include "aoc_days.hpp"
 
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv)
@@ -20,10 +20,19 @@ int main(int argc, const char **argv)
 
   CLI11_PARSE(app, argc, argv);
 
+  AocDays days;
+
   if (show_version) {
     fmt::print("{}\n", adventOfCode::cmake::project_version);
   } else if (day != 0 && part != 0) {
-    // Call right day and part
+    AocDay *aoc_day = days.GetDay(day);
+    if (part == 1) {
+      aoc_day->Part1("ff", { "aaa", "bbb", "ccc" });
+    } else if (part == 2) {
+
+    } else {
+      fmt::print("Wrong part number!\n");
+    }
   } else {
     fmt::print("Missing arguments (day and part)!\n");
   }
