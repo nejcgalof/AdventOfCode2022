@@ -1,6 +1,7 @@
 #include <CLI/CLI.hpp>
 #include <fmt/core.h>
 #include <internal_use_only/config.hpp>
+#include <variant>
 
 #include "aoc_day.hpp"
 #include "aoc_days.hpp"
@@ -15,21 +16,20 @@ int main(int argc, const char **argv)
   app.add_option("-d,--day", day, "Select the day");
   int part = 0; // Start with 1
   app.add_option("-p,--part", part, "Select part");
-  bool show_version = false;
-  app.add_flag("--version", show_version, "Show version information");
+  std::vector<std::variant<int, double, std::string>> arguments;
+  app.add_option<std::vector<std::variant<int, double, std::string>>>(
+    "-a,--arguments", arguments, "Add additional arguments for that day");
 
   CLI11_PARSE(app, argc, argv);
 
   AocDays days;
 
-  if (show_version) {
-    fmt::print("{}\n", adventOfCode::cmake::project_version);
-  } else if (day != 0 && part != 0) {
+  if (day != 0 && part != 0) {
     AocDay *aoc_day = days.GetDay(day);
     if (part == 1) {
-      aoc_day->Part1("ff", { "aaa", "bbb", "ccc" });
+      aoc_day->Part1(arguments);
     } else if (part == 2) {
-
+      aoc_day->Part2(arguments);
     } else {
       fmt::print("Wrong part number!\n");
     }
