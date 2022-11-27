@@ -1,14 +1,9 @@
 find_package(fmt CONFIG REQUIRED)
 find_package(CLI11 CONFIG REQUIRED)
 
-file(GLOB ALL_SRC "*.cpp")
+file(GLOB_RECURSE ALL_SRC "*.cpp")
 
-add_executable(
-  AdventOfCode2022
-  aoc_days.cpp
-  aoc_day.cpp
-  day_solutions/aoc_day_demo.cpp
-  main.cpp)
+add_executable(AdventOfCode2022 ${ALL_SRC})
 
 target_link_libraries(
   AdventOfCode2022
