@@ -1,12 +1,12 @@
-#ifndef DEMOLIBRARY_CONFIG_HPP
-#define DEMOLIBRARY_CONFIG_HPP
+#ifndef ADVENTOFCODE_CONFIG_HPP
+#define ADVENTOFCODE_CONFIG_HPP
 
 // this is a basic example of how a CMake configured file might look
 // in this particular case, we are using it to set the version number of our executable
-namespace lib::cmake {
-  static constexpr std::string_view library_name = "@PROJECT_NAME@";
-  static constexpr std::string_view library_version = "@PROJECT_VERSION@";
+namespace adventOfCode::cmake {
+  static constexpr std::string_view project_name = "@PROJECT_NAME@";
+  static constexpr std::string_view project_version = "@PROJECT_VERSION@";
   static constexpr std::string_view git_hash = "@GIT_HASH@";
-} // namespace lib::cmake
+} // namespace adventOfCode::cmake
 
 #endif

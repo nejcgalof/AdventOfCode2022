@@ -23,7 +23,7 @@ set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
 # Add project_options v0.24.0
 # https://github.com/aminya/project_options
 include(FetchContent)
-FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.24.0.zip)
+FetchContent_Declare(_project_options URL https://github.com/aminya/project_options/archive/refs/tags/v0.26.1.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -33,7 +33,7 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 
 # Set the project name and language
 project(
-  DemoLibrary
+  AdventOfCode2022
   VERSION 0.0.1
   DESCRIPTION ""
   LANGUAGES CXX C)
@@ -79,15 +79,15 @@ dynamic_project_options(
   PCH_HEADERS
   ${PCH_HEADERS}
   ENABLE_CONAN
-  ENABLE_SANITIZER_ADDRESS
-  ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
+  # ENABLE_SANITIZER_ADDRESS
+  # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
   # ENABLE_SANITIZER_THREAD
   # ENABLE_SANITIZER_MEMORY
-  ENABLE_INCLUDE_WHAT_YOU_USE
-  ENABLE_COVERAGE
+  # ENABLE_INCLUDE_WHAT_YOU_USE
+  # ENABLE_COVERAGE
   # ENABLE_BUILD_WITH_TIME_TRACE # Only Clang. Get info, where compiler spend most of the time. .json file located in Folder CMakeFiles, open with chrome://tracing/
   # ${ENABLE_COVERAGE}
-  ENABLE_DOXYGEN
+  # ENABLE_DOXYGEN
   # DOXYGEN_THEME
   # "${CMAKE_CURRENT_LIST_DIR}/css/my_custom_theme.css"
   # ENABLE_COVERAGE
@@ -108,8 +108,8 @@ dynamic_project_options(
   --inconclusive)
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
-add_library(DemoLibrary::project_options INTERFACE IMPORTED)
-add_library(DemoLibrary::project_warnings INTERFACE IMPORTED)
+add_library(AdventOfCode2022::project_options INTERFACE IMPORTED)
+add_library(AdventOfCode2022::project_warnings INTERFACE IMPORTED)
 
 # Configure files based on CMake configuration options
 add_subdirectory(configured_files)
@@ -117,12 +117,9 @@ add_subdirectory(configured_files)
 # Adding the src:
 add_subdirectory(src)
 
-# Adding the exec (executable - link and run the library):
-add_subdirectory(exec)
-
 # Adding the tests:
 option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
 if(ENABLE_TESTING)
   enable_testing()
-  add_subdirectory(test)
+  add_subdirectory(test) #TODO
 endif()

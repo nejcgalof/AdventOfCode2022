@@ -18,15 +18,10 @@ include(Catch)
 
 add_library(catch_main OBJECT catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
-target_link_libraries(catch_main PRIVATE DemoLibrary::project_options)
+target_link_libraries(catch_main PRIVATE AdventOfCode2022::project_options)
 
 add_executable(tests tests.cpp)
-target_link_libraries(
-  tests
-  PRIVATE DemoLibrary::project_warnings
-          DemoLibrary::project_options
-          catch_main
-          demo)
+target_link_libraries(tests PRIVATE AdventOfCode2022::project_warnings AdventOfCode2022::project_options catch_main)
 
 # automatically discover tests that are defined in catch based test files you can modify the unittests. Set TEST_PREFIX
 # to whatever you want, or use different for different binaries
