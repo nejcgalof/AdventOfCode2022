@@ -12,4 +12,4 @@
   // m_days[0] = new AocDay0();
 }*/
 
-AocDay *AocDays::GetDay(int day) { return days[day]; }
+std::shared_ptr<AocDay> AocDays::GetDay(int day) { return days[day]; }

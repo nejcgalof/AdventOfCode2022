@@ -3,15 +3,16 @@
 
 #include "aoc_day.hpp"
 #include <map>
+#include <memory>
 
 class AocDays
 {
 protected:
-  std::map<int, AocDay *> days;
+  std::map<int, std::shared_ptr<AocDay>> days;
 
 public:
   AocDays() = default;
-  AocDay *GetDay(int day);
+  std::shared_ptr<AocDay> GetDay(int day);
 };
 
 #endif

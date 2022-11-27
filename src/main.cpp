@@ -25,7 +25,11 @@ int main(int argc, const char **argv)
   AocDays days;
 
   if (day != 0 && part != 0) {
-    AocDay *aoc_day = days.GetDay(day);
+    auto aoc_day = days.GetDay(day);
+    if (aoc_day == nullptr) {
+      fmt::print("Solution from day {} not exist!\n", day);
+      return 0;
+    }
     if (part == 1) {
       aoc_day->Part1(arguments);
     } else if (part == 2) {
