@@ -9,7 +9,7 @@
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv)
 {
-  fmt::print("{}\n", "Welcome to AdventOfCode2022");
+  fmt::print("Welcome to AdventOfCode2022\n");
   CLI::App app{ fmt::format("{} version {}", adventOfCode::cmake::project_name, adventOfCode::cmake::project_version) };
 
   int day = 0; // Start with 1
@@ -35,7 +35,7 @@ int main(int argc, const char **argv)
     } else if (part == 2) {
       aoc_day->Part2(arguments);
     } else {
-      fmt::print("Wrong part number!\n");
+      fmt::print("Part {} from day {} not exist!\n", day, part);
     }
   } else {
     fmt::print("Missing arguments (day and part)!\n");

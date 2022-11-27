@@ -11,7 +11,7 @@ protected:
   std::map<int, std::shared_ptr<AocDay>> days;
 
 public:
-  AocDays() = default;
+  AocDays();
   std::shared_ptr<AocDay> GetDay(int day);
 };
 
