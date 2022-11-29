@@ -1,5 +1,4 @@
 #include "aoc_day.hpp"
-#include <fmt/core.h>
 
 AocDay::AocDay(int inputDay) : day(inputDay) {}
 

@@ -14,7 +14,6 @@ if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
 endif()
 
 find_package(Catch2 CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
 include(Catch)
 
 add_library(catch_main OBJECT catch_main.cpp)
@@ -33,8 +32,7 @@ target_link_libraries(
   tests
   PRIVATE AdventOfCode2022::project_warnings
           AdventOfCode2022::project_options
-          catch_main
-          fmt::fmt)
+          catch_main)
 target_include_directories(tests PUBLIC "${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/include/day_solutions"
                                         "${CMAKE_BINARY_DIR}/configured_files/include")
 

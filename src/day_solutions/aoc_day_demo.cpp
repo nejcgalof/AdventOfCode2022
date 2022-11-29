@@ -1,5 +1,4 @@
 #include "aoc_day_demo.hpp"
-#include <fmt/core.h>
 
 AocDayDemo::AocDayDemo() : AocDay(-1) {}
 
