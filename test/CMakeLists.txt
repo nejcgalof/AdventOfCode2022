@@ -23,7 +23,7 @@ target_link_libraries(catch_main PRIVATE AdventOfCode2022::project_options)
 file(GLOB_RECURSE ALL_SRC_DAYS "../src/day_solutions/*.cpp")
 add_executable(
   tests
-  tests.cpp
+  aoc_day_tests.cpp
   ../src/aoc_day.cpp
   ../src/aoc_days.cpp
   ${ALL_SRC_DAYS})
