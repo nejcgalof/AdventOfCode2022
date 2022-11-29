@@ -28,11 +28,7 @@ add_executable(
   ../src/aoc_days.cpp
   ${ALL_SRC_DAYS})
 
-target_link_libraries(
-  tests
-  PRIVATE AdventOfCode2022::project_warnings
-          AdventOfCode2022::project_options
-          catch_main)
+target_link_libraries(tests PRIVATE AdventOfCode2022::project_warnings AdventOfCode2022::project_options catch_main)
 target_include_directories(tests PUBLIC "${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/include/day_solutions"
                                         "${CMAKE_BINARY_DIR}/configured_files/include")
 

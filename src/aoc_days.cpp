@@ -4,7 +4,7 @@
 #include "aoc_days.hpp"
 
 // includes for each day will go here
-#include "aoc_day_demo.hpp"
+#include "demo/aoc_day_demo.hpp"
 
 AocDays::AocDays()
 {

@@ -1,4 +1,4 @@
-#include "aoc_day_demo.hpp"
+#include "demo/aoc_day_demo.hpp"
 
 AocDayDemo::AocDayDemo() : AocDay(-1) {}
 
