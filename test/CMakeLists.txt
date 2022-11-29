@@ -21,12 +21,14 @@ target_link_libraries(catch_main PUBLIC Catch2::Catch2)
 target_link_libraries(catch_main PRIVATE AdventOfCode2022::project_options)
 
 file(GLOB_RECURSE ALL_SRC_DAYS "../src/day_solutions/*.cpp")
+file(GLOB_RECURSE ALL_SRC_DAYS_TESTS "./day_solutions/*.cpp")
 add_executable(
   tests
   aoc_day_tests.cpp
   ../src/aoc_day.cpp
   ../src/aoc_days.cpp
-  ${ALL_SRC_DAYS})
+  ${ALL_SRC_DAYS}
+  ${ALL_SRC_DAYS_TESTS})
 
 target_link_libraries(tests PRIVATE AdventOfCode2022::project_warnings AdventOfCode2022::project_options catch_main)
 target_include_directories(tests PUBLIC "${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/include/day_solutions"

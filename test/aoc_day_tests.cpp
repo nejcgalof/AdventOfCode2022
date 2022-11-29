@@ -16,10 +16,3 @@ TEST_CASE("GetDay returns the day if the day exists", "[Main]")
   auto aoc_day = days.GetDay(-1);
   REQUIRE(aoc_day != nullptr);
 }
-
-TEST_CASE("Get the demo day", "[Demo]")
-{
-  AocDays days;
-  auto aoc_day = days.GetDay(-1);
-  REQUIRE(aoc_day != nullptr);
-}
