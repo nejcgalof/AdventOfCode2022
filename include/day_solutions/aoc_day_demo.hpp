@@ -5,13 +5,15 @@
 
 class AocDayDemo : public AocDay
 {
+private:
+  std::variant<int, double, std::string> Part1([[maybe_unused]] const std::string &file,
+    [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
+  std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
+    [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
+
 public:
   AocDayDemo();
   ~AocDayDemo() override;
-  std::variant<int, double, std::string> Part1(
-    [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
-  std::variant<int, double, std::string> Part2(
-    [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 };
 
 #endif

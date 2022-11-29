@@ -16,29 +16,29 @@ int main(int argc, const char **argv)
   app.add_option("-d,--day", day, "Select the day");
   int part = 0; // Start with 1
   app.add_option("-p,--part", part, "Select part");
+  std::string file;
+  app.add_option("-f,--file", file, "Input file");
   std::vector<std::variant<int, double, std::string>> arguments;
   app.add_option<std::vector<std::variant<int, double, std::string>>>(
-    "-a,--arguments", arguments, "Add additional arguments for that day");
+    "-a,--arguments", arguments, "Add additional arguments for the puzzle");
 
   CLI11_PARSE(app, argc, argv);
 
-  AocDays days;
-
-  if (day != 0 && part != 0) {
-    auto aoc_day = days.GetDay(day);
-    if (aoc_day == nullptr) {
-      fmt::print("Solution from day {} not exist!\n", day);
-      return 0;
-    }
-    if (part == 1) {
-      aoc_day->Part1(arguments);
-    } else if (part == 2) {
-      aoc_day->Part2(arguments);
-    } else {
-      fmt::print("Part {} from day {} not exist!\n", day, part);
-    }
-  } else {
+  if (day == 0 || part == 0) {
     fmt::print("Missing arguments (day and part)!\n");
+    return 0;
   }
+
+  AocDays days;
+  auto aoc_day = days.GetDay(day);
+  if (aoc_day == nullptr) {
+    fmt::print("Solution from day {} not exist!\n", day);
+    return 0;
+  }
+
+  std::visit(
+    [&day, &part](const auto &solution) { fmt::print("Solution from day {} part {} = {}\n", day, part, solution); },
+    aoc_day->SolvePart(part, file, arguments));
+
   return 0;
 }
