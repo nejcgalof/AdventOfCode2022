@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
-#include "aoc_day.hpp"
+#include <memory>
+
 #include "aoc_days.hpp"
 
 TEST_CASE("GetDay returns nullptr if the day does not exist", "[Main]")

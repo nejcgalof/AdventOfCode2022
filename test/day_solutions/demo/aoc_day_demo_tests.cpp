@@ -1,5 +1,9 @@
 #include <catch2/catch.hpp>
 
+#include <memory>
+#include <string>
+#include <variant>
+
 #include "aoc_day.hpp"
 #include "aoc_days.hpp"
 

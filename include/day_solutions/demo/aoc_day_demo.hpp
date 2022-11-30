@@ -1,6 +1,10 @@
 #ifndef ADVENTOFCODE_AOC_DAY_DEMO_HPP
 #define ADVENTOFCODE_AOC_DAY_DEMO_HPP
 
+#include <string>
+#include <variant>
+#include <vector>
+
 #include "aoc_day.hpp"
 
 class AocDayDemo : public AocDay

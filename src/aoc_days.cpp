@@ -1,10 +1,11 @@
 #include <map>
 
-#include "aoc_day.hpp"
 #include "aoc_days.hpp"
 
 // includes for each day will go here
 #include "demo/aoc_day_demo.hpp"
+
+class AocDay;
 
 AocDays::AocDays()
 {
