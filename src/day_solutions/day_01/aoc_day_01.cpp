@@ -1,6 +1,7 @@
 #include "day_01/aoc_day_01.hpp"
 
 #include <fstream>
+#include <numeric>
 
 AocDay01::AocDay01() : AocDay(1) {}
 
@@ -30,5 +31,22 @@ std::variant<int, double, std::string> AocDay01::Part1([[maybe_unused]] const st
 std::variant<int, double, std::string> AocDay01::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  return "Solution part 2";
+  std::vector<int> calories;
+  std::ifstream file_stream(file);
+  if (file_stream.is_open()) {
+    int current_elf_calories = 0;
+    std::string line;
+    while (std::getline(file_stream, line)) {
+      if (line.empty()) {
+        calories.emplace_back(current_elf_calories);
+        current_elf_calories = 0;
+      } else {
+        current_elf_calories += std::stoi(line);
+      }
+    }
+    if (current_elf_calories != 0) { calories.emplace_back(current_elf_calories); }
+    file_stream.close();
+  }
+  std::sort(calories.begin(), calories.end(), std::greater<>());
+  return calories.empty() ? 0 : std::accumulate(calories.begin(), std::next(calories.begin(), 3), 0);
 }
