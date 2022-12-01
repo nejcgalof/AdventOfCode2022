@@ -39,12 +39,12 @@ target_include_directories(tests PUBLIC "${CMAKE_SOURCE_DIR}/include" "${CMAKE_S
 catch_discover_tests(
   tests
   TEST_PREFIX
-  "unittests."
+  "AdventOfCode2022tests."
   REPORTER
   xml
   OUTPUT_DIR
   .
   OUTPUT_PREFIX
-  "unittests."
+  "AdventOfCode2022tests."
   OUTPUT_SUFFIX
   .xml)
