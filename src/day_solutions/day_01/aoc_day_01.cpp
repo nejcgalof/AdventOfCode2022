@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <fstream>
+#include <functional>
+#include <iterator>
 #include <numeric>
 
 AocDay01::AocDay01() : AocDay(1) {}
