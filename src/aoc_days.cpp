@@ -6,6 +6,7 @@
 #include "demo/aoc_day_demo.hpp"
 
 #include "day_01/aoc_day_01.hpp"
+#include "day_02/aoc_day_02.hpp"
 
 class AocDay;
 
@@ -14,6 +15,7 @@ AocDays::AocDays()
   // adding each member to the map goes here
   days[-1] = std::make_shared<AocDayDemo>();
   days[1] = std::make_shared<AocDay01>();
+  days[2] = std::make_shared<AocDay02>();
 }
 
 std::shared_ptr<AocDay> AocDays::GetDay(int day) { return days[day]; }
