@@ -46,6 +46,18 @@ TEST_CASE("Solve actual puzzle of the 02 day - part 1", "[day02]")
     == std::get<int>(days.GetDay(2)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_02/puzzle.txt", {})));
 }
 
-TEST_CASE("Solve simple puzzle of the 02 day - part 2", "[day02]") {}
+TEST_CASE("Solve simple puzzle of the 02 day - part 2", "[day02]")
+{
+  AocDays days;
+  REQUIRE(
+    12
+    == std::get<int>(days.GetDay(2)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_02/simple.txt", {})));
+}
 
-TEST_CASE("Solve actual puzzle of the 02 day - part 2", "[day02]") {}
+TEST_CASE("Solve actual puzzle of the 02 day - part 2", "[day02]")
+{
+  AocDays days;
+  REQUIRE(
+    16862
+    == std::get<int>(days.GetDay(2)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_02/puzzle.txt", {})));
+}

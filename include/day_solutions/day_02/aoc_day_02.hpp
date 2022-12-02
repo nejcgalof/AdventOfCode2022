@@ -21,6 +21,10 @@ private:
   std::map<std::string, int> kEnemyShapeValue;
   std::map<int, int> kMatchScore;
 
+  std::map<std::string, std::string> kLostHand;
+  std::map<std::string, std::string> kWinHand;
+  std::map<std::string, std::string> kDrawHand;
+
 public:
   AocDay02();
   ~AocDay02() override;
