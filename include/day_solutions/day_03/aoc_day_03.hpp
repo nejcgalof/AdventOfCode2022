@@ -15,6 +15,14 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
+  static constexpr int kStartUpperCase = 27;
+  static constexpr int kStartLowerCase = 1;
+  static constexpr int kAsciiUpperA = static_cast<int>('A');
+  static constexpr int kAsciiLowerA = static_cast<int>('a');
+
+  static std::vector<char> FindAllSameCharactersInTwoVectors(std::vector<char> first, std::vector<char> second);
+  static int CalculatePriorityValue(const std::vector<char> &characters);
+
 public:
   AocDay03();
   ~AocDay03() override;
