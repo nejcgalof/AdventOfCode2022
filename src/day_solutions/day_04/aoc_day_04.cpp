@@ -1,8 +1,11 @@
 #include "day_04/aoc_day_04.hpp"
 
 #include <algorithm>
+#include <bits/std_abs.h>
 #include <cstddef>
+#include <cstdlib>
 #include <fstream>
+#include <functional>
 #include <tuple>
 #include <vector>
 
@@ -25,8 +28,8 @@ std::variant<int, double, std::string> AocDay04::Part1([[maybe_unused]] const st
     std::string line;
     while (std::getline(file_stream, line)) {
       const size_t pos = line.find(',');
-      auto [first_elf_min, first_elf_max] = GetMinAndMax(line.substr(0, pos));
-      auto [second_elf_min, second_elf_max] = GetMinAndMax(line.substr(pos + 1));
+      const auto [first_elf_min, first_elf_max] = GetMinAndMax(line.substr(0, pos));
+      const auto [second_elf_min, second_elf_max] = GetMinAndMax(line.substr(pos + 1));
 
       if ((first_elf_min <= second_elf_min && first_elf_max >= second_elf_max)
           || (second_elf_min <= first_elf_min && second_elf_max >= first_elf_max)) {
@@ -47,11 +50,13 @@ std::variant<int, double, std::string> AocDay04::Part2([[maybe_unused]] const st
     std::string line;
     while (std::getline(file_stream, line)) {
       const size_t pos = line.find(',');
-      auto [first_elf_min, first_elf_max] = GetMinAndMax(line.substr(0, pos));
-      auto [second_elf_min, second_elf_max] = GetMinAndMax(line.substr(pos + 1));
+      const auto [first_elf_min, first_elf_max] = GetMinAndMax(line.substr(0, pos));
+      const auto [second_elf_min, second_elf_max] = GetMinAndMax(line.substr(pos + 1));
+
       std::vector<int> all_min_max{ first_elf_min, first_elf_max, second_elf_min, second_elf_max };
       const auto [smallest, biggest] = std::ranges::minmax_element(all_min_max);
 
+      // This calculates the number of overlaps - too many calculations for this part, but why not
       if (((std::abs(*biggest - *smallest) + 1) - std::abs(first_elf_min - second_elf_min)
             - std::abs(first_elf_max - second_elf_max))
           > 0) {
