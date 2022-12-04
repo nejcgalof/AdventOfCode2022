@@ -7,7 +7,6 @@
 AocDay02::AocDay02()
   : AocDay(2), kShapeScore({ { "X", 1 }, { "Y", 2 }, { "Z", 3 } }),
     kYourShapeValue({ { "X", 0 }, { "Y", 1 }, { "Z", 2 } }), kEnemyShapeValue({ { "A", 0 }, { "B", 1 }, { "C", 2 } }),
-    // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
     kMatchScore({ /*Draw*/ { 0, 3 }, /*Win*/ { 1, 6 }, /*Lose*/ { 2, 0 } }),
 
     kLostHand({ { "A", "Z" }, { "B", "X" }, { "C", "Y" } }), kWinHand({ { "A", "Y" }, { "B", "Z" }, { "C", "X" } }),
