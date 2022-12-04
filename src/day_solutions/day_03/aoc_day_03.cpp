@@ -10,7 +10,7 @@ AocDay03::AocDay03() : AocDay(3) {}
 
 AocDay03::~AocDay03() = default;
 
-std::vector<char> AocDay03::FindAllSameCharactersInTwoVectors(std::vector<char> first, std::vector<char> second)
+std::string AocDay03::FindAllSameCharactersInTwoVectors(std::string first, std::string second)
 {
   std::vector<char> intersection_between_vectors;
   // Sort is needed for set_intersection
@@ -21,10 +21,10 @@ std::vector<char> AocDay03::FindAllSameCharactersInTwoVectors(std::vector<char> 
   // Remove duplicates from intersection vector
   intersection_between_vectors.erase(unique(intersection_between_vectors.begin(), intersection_between_vectors.end()),
     intersection_between_vectors.end());
-  return intersection_between_vectors;
+  return std::string{ intersection_between_vectors.begin(), intersection_between_vectors.end() };
 }
 
-int AocDay03::CalculatePriorityValue(const std::vector<char> &characters)
+int AocDay03::CalculatePriorityValue(const std::string &characters)
 {
   int priority = 0;
   for (const auto &item : characters) {
@@ -42,13 +42,8 @@ std::variant<int, double, std::string> AocDay03::Part1([[maybe_unused]] const st
   if (file_stream.is_open()) {
     std::string line;
     while (std::getline(file_stream, line)) {
-      const std::string first_half_str = line.substr(0, line.length() / 2);
-      std::vector<char> v_first_half(first_half_str.begin(), first_half_str.end());
-
-      const std::string second_half_str = line.substr(line.length() / 2);
-      std::vector<char> v_second_half(second_half_str.begin(), second_half_str.end());
-
-      items_sum += CalculatePriorityValue(FindAllSameCharactersInTwoVectors(v_first_half, v_second_half));
+      items_sum += CalculatePriorityValue(
+        FindAllSameCharactersInTwoVectors(line.substr(0, line.length() / 2), line.substr(line.length() / 2)));
     }
   }
   return items_sum;
@@ -60,15 +55,14 @@ std::variant<int, double, std::string> AocDay03::Part2([[maybe_unused]] const st
   int items_sum = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
-    std::vector<std::vector<char>> lines_of_chars;
+    std::vector<std::string> readed_lines;
     std::string line;
     while (std::getline(file_stream, line)) {
-      lines_of_chars.emplace_back(line.begin(), line.end());
-
-      if (lines_of_chars.size() == 3) {
+      readed_lines.emplace_back(line);
+      if (readed_lines.size() == 3) {
         items_sum += CalculatePriorityValue(FindAllSameCharactersInTwoVectors(
-          FindAllSameCharactersInTwoVectors(lines_of_chars.at(0), lines_of_chars.at(1)), lines_of_chars.at(2)));
-        lines_of_chars.clear();
+          FindAllSameCharactersInTwoVectors(readed_lines.at(0), readed_lines.at(1)), readed_lines.at(2)));
+        readed_lines.clear();
       }
     }
   }

@@ -20,8 +20,8 @@ private:
   static constexpr int kAsciiUpperA = static_cast<int>('A');
   static constexpr int kAsciiLowerA = static_cast<int>('a');
 
-  static std::vector<char> FindAllSameCharactersInTwoVectors(std::vector<char> first, std::vector<char> second);
-  static int CalculatePriorityValue(const std::vector<char> &characters);
+  static std::string FindAllSameCharactersInTwoVectors(std::string first, std::string second);
+  static int CalculatePriorityValue(const std::string &characters);
 
 public:
   AocDay03();
