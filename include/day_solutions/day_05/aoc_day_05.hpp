@@ -16,7 +16,8 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
   static void ModifyStartingStacksFromReadedLine(std::string line, std::vector<std::vector<char>> &stacks);
-  static void MakeMoveFromReadedLine(const std::string &line, std::vector<std::vector<char>> &stacks);
+  static void
+    MakeMoveFromReadedLine(const std::string &line, std::vector<std::vector<char>> &stacks, bool move_same_order);
 
 public:
   AocDay05();
