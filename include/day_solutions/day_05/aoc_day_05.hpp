@@ -18,6 +18,7 @@ private:
   static void ModifyStartingStacksFromReadedLine(std::string line, std::vector<std::vector<char>> &stacks);
   static void
     MakeMoveFromReadedLine(const std::string &line, std::vector<std::vector<char>> &stacks, bool move_same_order);
+  static std::string SupplyStacks(const std::string &file, bool move_same_order);
 
 public:
   AocDay05();
