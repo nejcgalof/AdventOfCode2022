@@ -17,33 +17,33 @@ TEST_CASE("Get the 05 day", "[day05]")
 TEST_CASE("File not exist 05 day - part 1", "[day05]")
 {
   AocDays days;
-  REQUIRE(0
-          == std::get<int>(
-            days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple1.txt", {})));
+  REQUIRE(std::get<std::string>(
+    days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple1.txt", {}))
+            .empty());
 }
 
 TEST_CASE("File not exist 05 day - part 2", "[day05]")
 {
   AocDays days;
-  REQUIRE(0
-          == std::get<int>(
-            days.GetDay(5)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple1.txt", {})));
+  REQUIRE(std::get<std::string>(
+    days.GetDay(5)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple1.txt", {}))
+            .empty());
 }
 
 TEST_CASE("Solve simple puzzle of the 05 day - part 1", "[day05]")
 {
   AocDays days;
-  REQUIRE(
-    0
-    == std::get<int>(days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple.txt", {})));
+  REQUIRE("CMZ"
+          == std::get<std::string>(
+            days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/simple.txt", {})));
 }
 
 TEST_CASE("Solve actual puzzle of the 05 day - part 1", "[day05]")
 {
   AocDays days;
-  REQUIRE(
-    0
-    == std::get<int>(days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/puzzle.txt", {})));
+  REQUIRE("TLFGBZHCN"
+          == std::get<std::string>(
+            days.GetDay(5)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_05/puzzle.txt", {})));
 }
 
 TEST_CASE("Solve simple puzzle of the 05 day - part 2", "[day05]")

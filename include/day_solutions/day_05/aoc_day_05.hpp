@@ -15,6 +15,9 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
+  static void ModifyStartingStacksFromReadedLine(std::string line, std::vector<std::vector<char>> &stacks);
+  static void MakeMoveFromReadedLine(const std::string &line, std::vector<std::vector<char>> &stacks);
+
 public:
   AocDay05();
   ~AocDay05() override;
