@@ -16,6 +16,7 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
   static bool IsStringContainsUniqueCharacters(std::string inputString);
+  static int TuningTrouble(const std::string &file, size_t startOfMsgMarker);
 
 public:
   AocDay06();

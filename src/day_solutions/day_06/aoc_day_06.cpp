@@ -17,32 +17,30 @@ bool AocDay06::IsStringContainsUniqueCharacters(std::string inputString)
   return false;
 }
 
-std::variant<int, double, std::string> AocDay06::Part1([[maybe_unused]] const std::string &file,
-  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+int AocDay06::TuningTrouble(const std::string &file, size_t startOfMsgMarker)
 {
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string datastream_buffer((std::istreambuf_iterator<char>(file_stream)), std::istreambuf_iterator<char>());
 
     for (size_t i = 0; i < datastream_buffer.size(); i++) {
-      if (!IsStringContainsUniqueCharacters(datastream_buffer.substr(i, 4))) { return static_cast<int>(i) + 4; }
+      if (!IsStringContainsUniqueCharacters(datastream_buffer.substr(i, startOfMsgMarker))) {
+        return static_cast<int>(i + startOfMsgMarker);
+      }
     }
     file_stream.close();
   }
   return 0;
 }
 
+std::variant<int, double, std::string> AocDay06::Part1([[maybe_unused]] const std::string &file,
+  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+{
+  return TuningTrouble(file, 4);
+}
+
 std::variant<int, double, std::string> AocDay06::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string datastream_buffer((std::istreambuf_iterator<char>(file_stream)), std::istreambuf_iterator<char>());
-
-    for (size_t i = 0; i < datastream_buffer.size(); i++) {
-      if (!IsStringContainsUniqueCharacters(datastream_buffer.substr(i, 14))) { return static_cast<int>(i) + 14; }
-    }
-    file_stream.close();
-  }
-  return 0;
+  return TuningTrouble(file, 14);
 }
