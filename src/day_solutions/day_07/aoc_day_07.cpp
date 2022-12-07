@@ -44,14 +44,19 @@ int AocDay07::CalculateCurrentFileStructure(const std::string &currentFile)
   return sum_dir;
 }
 
-int AocDay07::CalculateFileStructure()
+int AocDay07::SumOfSmallDirs(int size) const
 {
   int sum_small_directories = 0;
   for (const auto &[key, val] : fileStructure) {
-    auto sum = CalculateCurrentFileStructure(key);
-    sum_small_directories += (sum < 100000) ? sum : 0;
+    auto sum = std::accumulate(val.begin(), val.end(), 0, [](auto a, auto b) { return a + b.second; });
+    sum_small_directories += (sum < size) ? sum : 0;
   }
   return sum_small_directories;
+}
+
+void AocDay07::CalculateDirSize()
+{
+  for (const auto &[key, val] : fileStructure) { CalculateCurrentFileStructure(key); }
 }
 
 void AocDay07::GenerateFileStructureFromReadedTerminal(const std::string &file)
@@ -94,16 +99,14 @@ std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const st
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
   GenerateFileStructureFromReadedTerminal(file);
-  int sum_small_directories = 0;
-  sum_small_directories = CalculateFileStructure();
-  return sum_small_directories;
+  CalculateDirSize();
+  return SumOfSmallDirs(100000);
 }
 
 std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
   GenerateFileStructureFromReadedTerminal(file);
-  if (fileStructure.empty()) { return 0; }
-  CalculateFileStructure();
-  return FindSmallestDirToFree();
+  CalculateDirSize();
+  return fileStructure.empty() ? 0 : FindSmallestDirToFree();
 }

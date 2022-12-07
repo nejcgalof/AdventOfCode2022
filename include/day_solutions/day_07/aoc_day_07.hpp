@@ -17,9 +17,8 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
   int FindSmallestDirToFree();
-
-  int CalculateFileStructure();
-
+  void CalculateDirSize();
+  int SumOfSmallDirs(int size) const;
   int CalculateCurrentFileStructure(const std::string &currentFile);
   void GenerateFileStructureFromReadedTerminal(const std::string &file);
 
