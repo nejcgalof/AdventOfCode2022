@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <fstream>
-#include <iostream>
 #include <map>
 #include <numeric>
 #include <vector>
@@ -10,18 +9,6 @@
 AocDay07::AocDay07() : AocDay(7) {}
 
 AocDay07::~AocDay07() = default;
-
-void AocDay07::PrintFileStructure(
-  const std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure)
-{
-  std::cout << "PRINT" << std::endl;
-  for (auto const &[key, val] : fileStructure) {
-
-    std::cout << "Dir: " << key << std::endl;
-    for (auto const &[key2, val2] : val) { std::cout << "File: " << key2 << " Val:" << val2 << std::endl; }
-    std::cout << std::endl;
-  }
-}
 
 int AocDay07::FindSmallestDirToFree(
   const std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure)
@@ -31,7 +18,6 @@ int AocDay07::FindSmallestDirToFree(
     all_dir_size += p.second;
   });
   int smallest_dir_size = all_dir_size;
-  std::cout << "All dir size: " << all_dir_size << std::endl;
   for (auto const &[key, val] : fileStructure) {
     int current_dir_size = 0;
     std::for_each(fileStructure.at(key).begin(), fileStructure.at(key).end(), [&current_dir_size](const auto &p) {
@@ -148,7 +134,6 @@ std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const st
         }
       }
     }
-    // PrintFileStructure(file_structure);
     CalculateFileStructure(file_structure);
     smallest_directory_size = FindSmallestDirToFree(file_structure);
 

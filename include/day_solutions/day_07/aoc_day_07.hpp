@@ -16,9 +16,6 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
-  static void PrintFileStructure(
-    const std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure);
-
   static int FindSmallestDirToFree(
     const std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure);
 
