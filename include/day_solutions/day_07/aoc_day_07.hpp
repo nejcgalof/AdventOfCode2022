@@ -21,6 +21,7 @@ private:
   int CalculateFileStructure();
 
   int CalculateCurrentFileStructure(const std::string &currentFile);
+  void GenerateFileStructureFromReadedTerminal(const std::string &file);
 
   std::map<const std::string, std::vector<std::pair<const std::string, int>>> fileStructure;
 

@@ -54,11 +54,9 @@ int AocDay07::CalculateFileStructure()
   return sum_small_directories;
 }
 
-std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const std::string &file,
-  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+void AocDay07::GenerateFileStructureFromReadedTerminal(const std::string &file)
 {
   fileStructure.clear();
-  int sum_small_directories = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
@@ -88,52 +86,24 @@ std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const st
         }
       }
     }
-    // PrintFileStructure(file_structure);
-    sum_small_directories = CalculateFileStructure();
-    // PrintFileStructure(file_structure);
     file_stream.close();
   }
+}
+
+std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const std::string &file,
+  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+{
+  GenerateFileStructureFromReadedTerminal(file);
+  int sum_small_directories = 0;
+  sum_small_directories = CalculateFileStructure();
   return sum_small_directories;
 }
 
 std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  fileStructure.clear();
-  int smallest_directory_size = 0;
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string line;
-    std::string current_path;
-    while (std::getline(file_stream, line)) {
-      if (line.at(0) == '$') {
-        line = line.substr(2, line.length());
-        if (line.substr(0, 2) == "cd") {
-          const size_t pos = line.find(' ');
-          auto current_dir_name = line.substr(pos + 1);
-          if (current_dir_name == "/") {
-            current_path = "/";
-          } else if (current_dir_name == "..") {
-            current_path = current_path.substr(0, current_path.find_last_of('/'));
-          } else {
-            current_path += "/" + current_dir_name;
-          }
-        }
-      } else {
-        if (line.substr(0, 3) == "dir") {
-          const size_t pos = line.find(' ');
-          fileStructure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
-        } else {
-          const size_t pos = line.find(' ');
-          fileStructure[current_path].emplace_back(
-            std::make_pair(line.substr(pos + 1), std::stoi(line.substr(0, pos))));
-        }
-      }
-    }
-    CalculateFileStructure();
-    smallest_directory_size = FindSmallestDirToFree();
-
-    file_stream.close();
-  }
-  return smallest_directory_size;
+  GenerateFileStructureFromReadedTerminal(file);
+  if (fileStructure.empty()) { return 0; }
+  CalculateFileStructure();
+  return FindSmallestDirToFree();
 }
