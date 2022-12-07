@@ -12,17 +12,15 @@ AocDay07::~AocDay07() = default;
 
 int AocDay07::FindSmallestDirToFree()
 {
-  int all_dir_size = 0;
-  if (fileStructure.empty()) { return all_dir_size; }
-  std::for_each(fileStructure.at("/").begin(), fileStructure.at("/").end(), [&all_dir_size](const auto &p) {
-    all_dir_size += p.second;
-  });
+  if (fileStructure.empty()) { return 0; }
+  int all_dir_size = std::accumulate(
+    fileStructure.at("/").begin(), fileStructure.at("/").end(), 0, [](auto sum, auto dir) { return sum + dir.second; });
   int smallest_dir_size = all_dir_size;
-  for (auto const &[key, val] : fileStructure) {
-    int current_dir_size = 0;
-    std::for_each(fileStructure.at(key).begin(), fileStructure.at(key).end(), [&current_dir_size](const auto &p) {
-      current_dir_size += p.second;
-    });
+  for (const auto &[directory, subdirectories] : fileStructure) {
+    int current_dir_size = std::accumulate(
+      fileStructure.at(directory).begin(), fileStructure.at(directory).end(), 0, [](auto sum, auto dir) {
+        return sum + dir.second;
+      });
     if ((30000000 - (70000000 - all_dir_size)) < current_dir_size && current_dir_size < smallest_dir_size) {
       smallest_dir_size = current_dir_size;
     }
@@ -32,17 +30,12 @@ int AocDay07::FindSmallestDirToFree()
 
 int AocDay07::CalculateCurrentFileStructure(const std::string &currentFile)
 {
-  int sum_dir = 0;
-  for (auto &[key2, val2] : fileStructure.at(currentFile)) {
-    if (val2 == -1) {
-      auto sum_of_subdir = CalculateCurrentFileStructure(key2);
-      val2 = sum_of_subdir;
-      sum_dir += sum_of_subdir;
-    } else {
-      sum_dir += val2;
-    }
+  int sum_size_dir = 0;
+  for (auto &[item, size] : fileStructure.at(currentFile)) {
+    size = (size == -1) ? CalculateCurrentFileStructure(item) : size;
+    sum_size_dir += size;
   }
-  return sum_dir;
+  return sum_size_dir;
 }
 
 int AocDay07::SumOfSmallDirs(int limitSize) const
