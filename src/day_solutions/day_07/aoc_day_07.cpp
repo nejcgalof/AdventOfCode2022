@@ -10,8 +10,7 @@ AocDay07::AocDay07() : AocDay(7) {}
 
 AocDay07::~AocDay07() = default;
 
-int AocDay07::FindSmallestDirToFree(
-  const std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure)
+int AocDay07::FindSmallestDirToFree()
 {
   int all_dir_size = 0;
   std::for_each(fileStructure.at("/").begin(), fileStructure.at("/").end(), [&all_dir_size](const auto &p) {
@@ -30,14 +29,12 @@ int AocDay07::FindSmallestDirToFree(
   return smallest_dir_size;
 }
 
-int AocDay07::CalculateCurrentFileStructure(
-  std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure,
-  const std::string &currentFile)
+int AocDay07::CalculateCurrentFileStructure(const std::string &currentFile)
 {
   int sum_dir = 0;
   for (auto &[key2, val2] : fileStructure.at(currentFile)) {
     if (val2 == -1) {
-      auto sum_of_subdir = CalculateCurrentFileStructure(fileStructure, key2);
+      auto sum_of_subdir = CalculateCurrentFileStructure(key2);
       val2 = sum_of_subdir;
       sum_dir += sum_of_subdir;
     } else {
@@ -47,12 +44,11 @@ int AocDay07::CalculateCurrentFileStructure(
   return sum_dir;
 }
 
-int AocDay07::CalculateFileStructure(
-  std::map<const std::string, std::vector<std::pair<const std::string, int>>> &fileStructure)
+int AocDay07::CalculateFileStructure()
 {
   int sum_small_directories = 0;
   for (const auto &[key, val] : fileStructure) {
-    auto sum = CalculateCurrentFileStructure(fileStructure, key);
+    auto sum = CalculateCurrentFileStructure(key);
     sum_small_directories += (sum < 100000) ? sum : 0;
   }
   return sum_small_directories;
@@ -61,12 +57,12 @@ int AocDay07::CalculateFileStructure(
 std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
+  fileStructure.clear();
   int sum_small_directories = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
     std::string current_path;
-    std::map<const std::string, std::vector<std::pair<const std::string, int>>> file_structure;
     while (std::getline(file_stream, line)) {
       if (line.at(0) == '$') {
         line = line.substr(2, line.length());
@@ -84,16 +80,16 @@ std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const st
       } else {
         if (line.substr(0, 3) == "dir") {
           const size_t pos = line.find(' ');
-          file_structure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
+          fileStructure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
         } else {
           const size_t pos = line.find(' ');
-          file_structure[current_path].emplace_back(
+          fileStructure[current_path].emplace_back(
             std::make_pair(line.substr(pos + 1), std::stoi(line.substr(0, pos))));
         }
       }
     }
     // PrintFileStructure(file_structure);
-    sum_small_directories = CalculateFileStructure(file_structure);
+    sum_small_directories = CalculateFileStructure();
     // PrintFileStructure(file_structure);
     file_stream.close();
   }
@@ -103,12 +99,12 @@ std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const st
 std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
+  fileStructure.clear();
   int smallest_directory_size = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
     std::string current_path;
-    std::map<const std::string, std::vector<std::pair<const std::string, int>>> file_structure;
     while (std::getline(file_stream, line)) {
       if (line.at(0) == '$') {
         line = line.substr(2, line.length());
@@ -126,16 +122,16 @@ std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const st
       } else {
         if (line.substr(0, 3) == "dir") {
           const size_t pos = line.find(' ');
-          file_structure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
+          fileStructure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
         } else {
           const size_t pos = line.find(' ');
-          file_structure[current_path].emplace_back(
+          fileStructure[current_path].emplace_back(
             std::make_pair(line.substr(pos + 1), std::stoi(line.substr(0, pos))));
         }
       }
     }
-    CalculateFileStructure(file_structure);
-    smallest_directory_size = FindSmallestDirToFree(file_structure);
+    CalculateFileStructure();
+    smallest_directory_size = FindSmallestDirToFree();
 
     file_stream.close();
   }
