@@ -13,6 +13,7 @@ AocDay07::~AocDay07() = default;
 int AocDay07::FindSmallestDirToFree()
 {
   int all_dir_size = 0;
+  if (fileStructure.empty()) { return all_dir_size; }
   std::for_each(fileStructure.at("/").begin(), fileStructure.at("/").end(), [&all_dir_size](const auto &p) {
     all_dir_size += p.second;
   });
@@ -44,19 +45,20 @@ int AocDay07::CalculateCurrentFileStructure(const std::string &currentFile)
   return sum_dir;
 }
 
-int AocDay07::SumOfSmallDirs(int size) const
+int AocDay07::SumOfSmallDirs(int limitSize) const
 {
   int sum_small_directories = 0;
-  for (const auto &[key, val] : fileStructure) {
-    auto sum = std::accumulate(val.begin(), val.end(), 0, [](auto a, auto b) { return a + b.second; });
-    sum_small_directories += (sum < size) ? sum : 0;
+  for (const auto &[directory, subdirectories] : fileStructure) {
+    const auto sum_subdirectories = std::accumulate(
+      subdirectories.begin(), subdirectories.end(), 0, [](auto sum, auto dir) { return sum + dir.second; });
+    sum_small_directories += (sum_subdirectories < limitSize) ? sum_subdirectories : 0;
   }
   return sum_small_directories;
 }
 
 void AocDay07::CalculateDirSize()
 {
-  for (const auto &[key, val] : fileStructure) { CalculateCurrentFileStructure(key); }
+  for (const auto &[directory, subdirectories] : fileStructure) { CalculateCurrentFileStructure(directory); }
 }
 
 void AocDay07::GenerateFileStructureFromReadedTerminal(const std::string &file)
@@ -108,5 +110,5 @@ std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const st
 {
   GenerateFileStructureFromReadedTerminal(file);
   CalculateDirSize();
-  return fileStructure.empty() ? 0 : FindSmallestDirToFree();
+  return FindSmallestDirToFree();
 }

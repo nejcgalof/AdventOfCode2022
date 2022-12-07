@@ -18,7 +18,7 @@ private:
 
   int FindSmallestDirToFree();
   void CalculateDirSize();
-  int SumOfSmallDirs(int size) const;
+  int SumOfSmallDirs(int limitSize) const;
   int CalculateCurrentFileStructure(const std::string &currentFile);
   void GenerateFileStructureFromReadedTerminal(const std::string &file);
 
