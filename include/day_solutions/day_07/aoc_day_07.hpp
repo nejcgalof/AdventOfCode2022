@@ -1,6 +1,7 @@
 #ifndef ADVENTOFCODE_AOC_DAY_07_HPP
 #define ADVENTOFCODE_AOC_DAY_07_HPP
 
+#include <map>
 #include <string>
 #include <variant>
 #include <vector>
@@ -14,6 +15,16 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
+
+  // static void PrintFileStructure(
+  //   const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure);
+
+  static int CalculateFileStructure(
+    const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure);
+
+  static int CalculateCurrentFileStructure(
+    const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure,
+    const std::string &currentFile);
 
 public:
   AocDay07();

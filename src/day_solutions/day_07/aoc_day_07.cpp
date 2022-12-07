@@ -2,16 +2,91 @@
 
 #include <algorithm>
 #include <fstream>
+// #include <iostream>
+#include <map>
 #include <vector>
 
 AocDay07::AocDay07() : AocDay(7) {}
 
 AocDay07::~AocDay07() = default;
 
+/*void AocDay07::PrintFileStructure(
+  const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure)
+{
+  std::cout << "PRINT" << std::endl;
+  for (auto const &[key, val] : fileStructure) {
+
+    std::cout << "Dir: " << key << std::endl;
+    for (auto const &[key2, val2] : val) { std::cout << "File: " << key2 << " Val:" << val2 << std::endl; }
+    std::cout << std::endl;
+  }
+}*/
+
+int AocDay07::CalculateCurrentFileStructure(
+  const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure,
+  const std::string &currentFile)
+{
+  int sum_dir = 0;
+  for (const auto &[key2, val2] : fileStructure.at(currentFile)) {
+    if (val2 == -1) {
+      sum_dir += CalculateCurrentFileStructure(fileStructure, key2);
+    } else {
+      sum_dir += val2;
+    }
+  }
+  return sum_dir;
+}
+
+int AocDay07::CalculateFileStructure(
+  const std::map<const std::string, std::vector<std::pair<std::string, int>>> &fileStructure)
+{
+  int sum_small_directories = 0;
+  for (const auto &[key, val] : fileStructure) {
+    auto sum = CalculateCurrentFileStructure(fileStructure, key);
+    sum_small_directories += (sum < 100000) ? sum : 0;
+  }
+  return sum_small_directories;
+}
+
 std::variant<int, double, std::string> AocDay07::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  return 0;
+  int sum_small_directories = 0;
+  std::ifstream file_stream(file);
+  if (file_stream.is_open()) {
+    std::string line;
+    std::string current_path;
+    std::map<const std::string, std::vector<std::pair<std::string, int>>> file_structure;
+    while (std::getline(file_stream, line)) {
+      if (line.at(0) == '$') {
+        line = line.substr(2, line.length());
+        if (line.substr(0, 2) == "cd") {
+          const size_t pos = line.find(' ');
+          auto current_dir_name = line.substr(pos + 1);
+          if (current_dir_name == "/") {
+            current_path = "/";
+          } else if (current_dir_name == "..") {
+            current_path = current_path.substr(0, current_path.find_last_of('/'));
+          } else {
+            current_path += "/" + current_dir_name;
+          }
+        }
+      } else {
+        if (line.substr(0, 3) == "dir") {
+          const size_t pos = line.find(' ');
+          file_structure[current_path].emplace_back(std::make_pair(current_path + "/" + line.substr(pos + 1), -1));
+        } else {
+          const size_t pos = line.find(' ');
+          file_structure[current_path].emplace_back(
+            std::make_pair(line.substr(pos + 1), std::stoi(line.substr(0, pos))));
+        }
+      }
+    }
+    // PrintFileStructure(file_structure);
+    sum_small_directories = CalculateFileStructure(file_structure);
+    file_stream.close();
+  }
+  return sum_small_directories;
 }
 
 std::variant<int, double, std::string> AocDay07::Part2([[maybe_unused]] const std::string &file,
