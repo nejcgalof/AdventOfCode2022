@@ -1,9 +1,10 @@
 #include "day_07/aoc_day_07.hpp"
 
-#include <algorithm>
+#include <cstddef>
 #include <fstream>
 #include <map>
 #include <numeric>
+#include <type_traits>
 #include <vector>
 
 AocDay07::AocDay07() : AocDay(7) {}
