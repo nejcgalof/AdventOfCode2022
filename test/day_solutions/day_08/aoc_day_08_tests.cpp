@@ -50,7 +50,7 @@ TEST_CASE("Solve simple puzzle of the 08 day - part 2", "[day08]")
 {
   AocDays days;
   REQUIRE(
-    0
+    8
     == std::get<int>(days.GetDay(8)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_08/simple.txt", {})));
 }
 
@@ -58,6 +58,6 @@ TEST_CASE("Solve actual puzzle of the 08 day - part 2", "[day08]")
 {
   AocDays days;
   REQUIRE(
-    0
+    480000
     == std::get<int>(days.GetDay(8)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_08/puzzle.txt", {})));
 }
