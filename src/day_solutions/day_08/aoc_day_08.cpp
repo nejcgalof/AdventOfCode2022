@@ -1,11 +1,10 @@
 #include "day_08/aoc_day_08.hpp"
 
 #include <algorithm>
-#include <bits/std_abs.h>
 #include <cstddef>
-#include <cstdlib>
 #include <fstream>
-#include <functional>
+#include <iterator>
+#include <memory>
 #include <vector>
 
 AocDay08::AocDay08() : AocDay(8) {}

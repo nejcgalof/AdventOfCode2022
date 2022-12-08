@@ -1,6 +1,7 @@
 #ifndef ADVENTOFCODE_AOC_DAY_08_HPP
 #define ADVENTOFCODE_AOC_DAY_08_HPP
 
+#include <cstddef>
 #include <string>
 #include <tuple>
 #include <variant>

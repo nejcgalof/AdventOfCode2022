@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iterator>
 #include <vector>
 
 AocDay06::AocDay06() : AocDay(6) {}
