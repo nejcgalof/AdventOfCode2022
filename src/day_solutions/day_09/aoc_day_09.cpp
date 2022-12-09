@@ -11,7 +11,7 @@ AocDay09::AocDay09() : AocDay(9) {}
 
 AocDay09::~AocDay09() = default;
 
-void AocDay09::MoveKnot(pos &currentKnot, const pos &previousKnot)
+void AocDay09::MoveKnot(Knot &currentKnot, const Knot &previousKnot)
 {
   if ((currentKnot.x - previousKnot.x) == 2) {
     if (currentKnot.y > previousKnot.y) {
@@ -70,15 +70,15 @@ void AocDay09::MoveHeadByDirection(const std::string &direction)
   }
 }
 
-void AocDay09::SaveTailPosition(const pos &tailKnot) { uniquePositions.emplace(tailKnot.x, tailKnot.y); }
+void AocDay09::SaveTailPosition(const Knot &tailKnot) { uniqueTailPositions.emplace(tailKnot.x, tailKnot.y); }
 
 int AocDay09::ReadFileAndMoveKnotsAndReturnTailVisitPositions(const std::string &file, const size_t numKnots)
 {
-  uniquePositions.clear();
+  uniqueTailPositions.clear();
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
-    knots = std::vector<pos>(numKnots, { 0, 0 });
+    knots = std::vector<Knot>(numKnots, { 0, 0 });
 
     while (std::getline(file_stream, line)) {
       const size_t pos_space = line.find(' ');
@@ -89,7 +89,7 @@ int AocDay09::ReadFileAndMoveKnotsAndReturnTailVisitPositions(const std::string 
     }
     file_stream.close();
   }
-  return static_cast<int>(uniquePositions.size());
+  return static_cast<int>(uniqueTailPositions.size());
 }
 
 std::variant<int, double, std::string> AocDay09::Part1([[maybe_unused]] const std::string &file,
