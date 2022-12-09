@@ -25,6 +25,7 @@ private:
   };
 
   void MoveTail(pos &tail, const pos &head);
+  void MoveKnots(std::vector<pos> &knots);
 
   std::set<std::pair<int, int>> uniquePositions;
 

@@ -50,14 +50,22 @@ TEST_CASE("Solve simple puzzle of the 09 day - part 2", "[day09]")
 {
   AocDays days;
   REQUIRE(
-    0
+    1
     == std::get<int>(days.GetDay(9)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_09/simple.txt", {})));
+}
+
+TEST_CASE("Solve simple large puzzle of the 09 day - part 2", "[day09]")
+{
+  AocDays days;
+  REQUIRE(36
+          == std::get<int>(
+            days.GetDay(9)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_09/simple_large.txt", {})));
 }
 
 TEST_CASE("Solve actual puzzle of the 09 day - part 2", "[day09]")
 {
   AocDays days;
   REQUIRE(
-    0
+    2691
     == std::get<int>(days.GetDay(9)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_09/puzzle.txt", {})));
 }
