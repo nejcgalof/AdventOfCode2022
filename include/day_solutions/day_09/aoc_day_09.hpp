@@ -24,10 +24,14 @@ private:
     int y;
   };
 
-  void MoveTail(pos &tail, const pos &head);
-  void MoveKnots(std::vector<pos> &knots);
+  static void MoveKnot(pos &currentKnot, const pos &previousKnot);
+  void MoveKnots(const std::string &direction);
+  void MoveHeadByDirection(const std::string &direction);
+  void SaveTailPosition(const pos &tailKnot);
+  int ReadFileAndMoveKnotsAndReturnTailVisitPositions(const std::string &file, const size_t numKnots);
 
   std::set<std::pair<int, int>> uniquePositions;
+  std::vector<pos> knots;
 
 public:
   AocDay09();
