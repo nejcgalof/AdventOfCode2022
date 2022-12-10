@@ -19,6 +19,8 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
   void ExecuteCycle(int &sumSignalStrength);
+  void ExecuteCycle(std::string &crtScreen);
+  void Draw(std::string &crtScreen) const;
 
   int registerValue;
   int cycle;
