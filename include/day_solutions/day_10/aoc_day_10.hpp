@@ -18,6 +18,11 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
+  void ExecuteCycle(int &sumSignalStrength);
+
+  int registerValue;
+  int cycle;
+
 public:
   AocDay10();
   ~AocDay10() override;

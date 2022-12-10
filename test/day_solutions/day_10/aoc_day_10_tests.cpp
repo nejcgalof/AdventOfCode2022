@@ -33,7 +33,7 @@ TEST_CASE("File not exist 10 day - part 2", "[day10]")
 TEST_CASE("Solve simple puzzle of the 10 day - part 1", "[day10]")
 {
   AocDays days;
-  REQUIRE(0
+  REQUIRE(13140
           == std::get<int>(
             days.GetDay(10)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_10/simple.txt", {})));
 }
@@ -41,7 +41,7 @@ TEST_CASE("Solve simple puzzle of the 10 day - part 1", "[day10]")
 TEST_CASE("Solve actual puzzle of the 10 day - part 1", "[day10]")
 {
   AocDays days;
-  REQUIRE(0
+  REQUIRE(12560
           == std::get<int>(
             days.GetDay(10)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_10/puzzle.txt", {})));
 }
@@ -52,14 +52,6 @@ TEST_CASE("Solve simple puzzle of the 10 day - part 2", "[day10]")
   REQUIRE(0
           == std::get<int>(
             days.GetDay(10)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_10/simple.txt", {})));
-}
-
-TEST_CASE("Solve simple large puzzle of the 10 day - part 2", "[day10]")
-{
-  AocDays days;
-  REQUIRE(0
-          == std::get<int>(
-            days.GetDay(10)->SolvePart(2, "/workspaces/AdventOfCode2022/puzzle_inputs/day_10/simple_large.txt", {})));
 }
 
 TEST_CASE("Solve actual puzzle of the 10 day - part 2", "[day10]")
