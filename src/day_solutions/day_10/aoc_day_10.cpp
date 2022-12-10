@@ -2,8 +2,6 @@
 
 #include <cstddef>
 #include <fstream>
-#include <iostream>
-#include <memory>
 #include <vector>
 
 AocDay10::AocDay10() : AocDay(9), registerValue(1), cycle(0), crtPos(1) {}
