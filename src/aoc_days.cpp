@@ -14,6 +14,7 @@
 #include "day_07/aoc_day_07.hpp"
 #include "day_08/aoc_day_08.hpp"
 #include "day_09/aoc_day_09.hpp"
+#include "day_10/aoc_day_10.hpp"
 
 class AocDay;
 
@@ -30,6 +31,7 @@ AocDays::AocDays()
   days[7] = std::make_shared<AocDay07>();
   days[8] = std::make_shared<AocDay08>();
   days[9] = std::make_shared<AocDay09>();
+  days[10] = std::make_shared<AocDay10>();
 }
 
 std::shared_ptr<AocDay> AocDays::GetDay(int day) { return days[day]; }
