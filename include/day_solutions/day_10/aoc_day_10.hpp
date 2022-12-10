@@ -20,10 +20,11 @@ private:
 
   void ExecuteCycle(int &sumSignalStrength);
   void ExecuteCycle(std::string &crtScreen);
-  void Draw(std::string &crtScreen) const;
+  void Draw(std::string &crtScreen);
 
   int registerValue;
   int cycle;
+  int crtPos;
 
 public:
   AocDay10();

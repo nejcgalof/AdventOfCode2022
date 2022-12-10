@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-AocDay10::AocDay10() : AocDay(9), registerValue(1), cycle(0) {}
+AocDay10::AocDay10() : AocDay(9), registerValue(1), cycle(0), crtPos(1) {}
 
 AocDay10::~AocDay10() = default;
 
@@ -23,15 +23,19 @@ void AocDay10::ExecuteCycle(std::string &crtScreen)
   Draw(crtScreen);
 }
 
-void AocDay10::Draw(std::string &crtScreen) const
+void AocDay10::Draw(std::string &crtScreen)
 {
-  const int pixel_position = cycle % 40;
-  if (pixel_position >= registerValue && pixel_position <= registerValue + 2) {
+
+  if (crtPos >= registerValue && crtPos <= registerValue + 2) {
     crtScreen += "#";
   } else {
     crtScreen += ".";
   }
-  if (pixel_position == 0) { crtScreen += "\n"; }
+  crtPos++;
+  if (crtPos == 41) {
+    crtScreen += "\n";
+    crtPos = 1;
+  }
 }
 
 std::variant<int, double, std::string> AocDay10::Part1([[maybe_unused]] const std::string &file,
