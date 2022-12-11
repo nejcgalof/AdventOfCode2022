@@ -89,14 +89,9 @@ std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const st
       }
     }
     devideNumber = 3;
-    // lcm = std::lcm(all_delimeters.begin(), all_delimeters.end());
     PlayRounds(20);
-    // std::cout << "#######################" << std::endl;
-    for (const auto &monkey : monkeys) { monkey.Print(); }
     std::sort(monkeysInspectedItemsCounter.begin(), monkeysInspectedItemsCounter.end(), std::greater<>());
-    for (const auto &aaa : monkeysInspectedItemsCounter) { std::cout << aaa << std::endl; }
-    // std::cout << monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
-    return static_cast<double>(monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1));
+    return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
   }
   file_stream.close();
   return 0.0;
@@ -130,7 +125,7 @@ std::variant<int, double, std::string> AocDay11::Part2([[maybe_unused]] const st
     });
     PlayRounds(10000);
     std::sort(monkeysInspectedItemsCounter.begin(), monkeysInspectedItemsCounter.end(), std::greater<>());
-    return static_cast<double>(monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1));
+    return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
   }
   file_stream.close();
   return 0.0;

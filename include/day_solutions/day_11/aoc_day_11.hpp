@@ -25,22 +25,6 @@ private:
     int throwDivisibleFalse;
     unsigned long divisible;
     std::tuple<std::string, std::string> operation;
-
-    void Print() const
-    {
-      std::cout << "Monkey: " << id << "\n";
-      std::cout << "Items: ";
-      for (const auto &item : items) { std::cout << item << " "; }
-      std::cout << "\n";
-
-      std::cout << "Operation: " << std::get<0>(operation) << " " << std::get<1>(operation) << "\n";
-
-      std::cout << "Divisible: " << divisible << "\n";
-      std::cout << "True: " << throwDivisibleTrue << "\n";
-      std::cout << "False: " << throwDivisibleFalse << "\n";
-
-      std::cout << "_______________________________________\n";
-    }
   };
 
   static void ParseLine(Monkey &monkey, std::string &line);
@@ -48,7 +32,7 @@ private:
   void MonkeyMove(Monkey &monkey);
 
   std::vector<Monkey> monkeys;
-  std::vector<unsigned long> monkeysInspectedItemsCounter;
+  std::vector<double> monkeysInspectedItemsCounter;
   unsigned long devideNumber;
 
 public:
