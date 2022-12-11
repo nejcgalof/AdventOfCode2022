@@ -20,10 +20,10 @@ private:
   struct Monkey
   {
     int id;
-    std::vector<unsigned long long> items;
+    std::vector<unsigned long> items;
     int throwDivisibleTrue;
     int throwDivisibleFalse;
-    unsigned long long divisible;
+    unsigned long divisible;
     std::tuple<std::string, std::string> operation;
 
     void Print() const
@@ -44,12 +44,12 @@ private:
   };
 
   static void ParseLine(Monkey &monkey, std::string &line);
-  void PlayRounds();
+  void PlayRounds(size_t rounds);
   void MonkeyMove(Monkey &monkey);
 
   std::vector<Monkey> monkeys;
-  std::vector<unsigned long long> monkeysInspectedItemsCounter;
-  // unsigned long long lcm;
+  std::vector<unsigned long> monkeysInspectedItemsCounter;
+  unsigned long devideNumber;
 
 public:
   AocDay11();
