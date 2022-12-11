@@ -1,12 +1,13 @@
 #include "day_11/aoc_day_11.hpp"
 
 #include <algorithm>
-#include <cstddef>
 #include <fstream>
+#include <functional>
 #include <iostream>
+#include <iterator>
+#include <memory>
 #include <numeric>
 #include <sstream>
-#include <vector>
 
 AocDay11::AocDay11() : AocDay(11), devideNumber(3) {}
 
