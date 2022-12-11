@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <numeric>
 #include <sstream>
 #include <vector>
 
@@ -20,11 +21,11 @@ void AocDay11::ParseLine(Monkey &monkey, std::string &line)
     second_half.erase(std::remove(second_half.begin(), second_half.end(), ','), second_half.end());
     std::stringstream stream_items(second_half);
     std::string item;
-    while (std::getline(stream_items, item, ' ')) { monkey.items.emplace_back(std::stoi(item)); }
+    while (std::getline(stream_items, item, ' ')) { monkey.items.emplace_back(std::stol(item)); }
   } else if (first_half == "  Operation") {
     monkey.operation = { second_half.substr(10, 1), second_half.substr(12) }; // new = old (this) (this)
   } else if (first_half == "  Test") {
-    monkey.divisible = std::stoi(second_half.substr(13)); // divisible by (this)
+    monkey.divisible = std::stoull(second_half.substr(13)); // divisible by (this)
   } else if (first_half == "    If true") {
     monkey.throwDivisibleTrue = std::stoi(second_half.substr(16));
   } else if (first_half == "    If false") {
@@ -34,7 +35,7 @@ void AocDay11::ParseLine(Monkey &monkey, std::string &line)
 
 void AocDay11::PlayRounds()
 {
-  for (size_t round = 0; round < 20; round++) {
+  for (size_t round = 0; round < 10000; round++) {
     for (auto &monkey : monkeys) { MonkeyMove(monkey); }
   }
 }
@@ -44,16 +45,17 @@ void AocDay11::MonkeyMove(Monkey &monkey)
   for (auto &item : monkey.items) {
     monkeysInspectedItemsCounter.at(static_cast<size_t>(monkey.id))++;
     if (std::get<0>(monkey.operation) == "+") {
-      item += (std::get<1>(monkey.operation) == "old") ? item : std::stoi(std::get<1>(monkey.operation));
+      item += (std::get<1>(monkey.operation) == "old") ? item : std::stoull(std::get<1>(monkey.operation));
     } else if (std::get<0>(monkey.operation) == "-") {
-      item -= (std::get<1>(monkey.operation) == "old") ? item : std::stoi(std::get<1>(monkey.operation));
+      item -= (std::get<1>(monkey.operation) == "old") ? item : std::stoull(std::get<1>(monkey.operation));
     } else if (std::get<0>(monkey.operation) == "*") {
-      item *= (std::get<1>(monkey.operation) == "old") ? item : std::stoi(std::get<1>(monkey.operation));
+      item *= (std::get<1>(monkey.operation) == "old") ? item : std::stoull(std::get<1>(monkey.operation));
     } else if (std::get<0>(monkey.operation) == "/") {
-      item /= (std::get<1>(monkey.operation) == "old") ? item : std::stoi(std::get<1>(monkey.operation));
+      item /= (std::get<1>(monkey.operation) == "old") ? item : std::stoull(std::get<1>(monkey.operation));
     }
-    item /= 3;
-    if (item % monkey.divisible == 0) {
+    // item /= 3;
+    item %= 9699690;
+    if (item % monkey.divisible == 0LL) {
       monkeys.at(static_cast<size_t>(monkey.throwDivisibleTrue)).items.emplace_back(item);
     } else {
       monkeys.at(static_cast<size_t>(monkey.throwDivisibleFalse)).items.emplace_back(item);
@@ -81,12 +83,14 @@ std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const st
         monkeys.emplace_back(monkey);
       }
     }
-    // for (const auto &monkey : monkeys) { monkey.Print(); }
+
+    // lcm = std::lcm(all_delimeters.begin(), all_delimeters.end());
     PlayRounds();
     // std::cout << "#######################" << std::endl;
-    // for (const auto &monkey : monkeys) { monkey.Print(); }
+    for (const auto &monkey : monkeys) { monkey.Print(); }
     std::sort(monkeysInspectedItemsCounter.begin(), monkeysInspectedItemsCounter.end(), std::greater<>());
-    return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
+    std::cout << monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
+    // return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
   }
   file_stream.close();
   return 0;

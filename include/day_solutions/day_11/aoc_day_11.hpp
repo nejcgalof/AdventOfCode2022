@@ -20,13 +20,11 @@ private:
   struct Monkey
   {
     int id;
-    std::vector<int> items;
+    std::vector<unsigned long long> items;
     int throwDivisibleTrue;
     int throwDivisibleFalse;
-    int divisible;
+    unsigned long long divisible;
     std::tuple<std::string, std::string> operation;
-
-    int inspectedItemsCounter;
 
     void Print() const
     {
@@ -41,7 +39,6 @@ private:
       std::cout << "True: " << throwDivisibleTrue << "\n";
       std::cout << "False: " << throwDivisibleFalse << "\n";
 
-      std::cout << "InspectedItemsCounter: " << inspectedItemsCounter << "\n";
       std::cout << "_______________________________________\n";
     }
   };
@@ -51,7 +48,8 @@ private:
   void MonkeyMove(Monkey &monkey);
 
   std::vector<Monkey> monkeys;
-  std::vector<int> monkeysInspectedItemsCounter;
+  std::vector<unsigned long long> monkeysInspectedItemsCounter;
+  // unsigned long long lcm;
 
 public:
   AocDay11();
