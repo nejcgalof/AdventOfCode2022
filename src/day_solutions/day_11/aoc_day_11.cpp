@@ -69,8 +69,17 @@ void AocDay11::MonkeyMove(Monkey &monkey)
   monkey.items.clear();
 }
 
-std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const std::string &file,
-  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+unsigned long AocDay11::CalculateLcmOnDivisibles()
+{
+  std::vector<unsigned long> all_divisibles;
+  std::transform(monkeys.begin(), monkeys.end(), std::back_inserter(all_divisibles), [](const auto &monkey) {
+    return monkey.divisible;
+  });
+  return std::accumulate(
+    all_divisibles.begin(), all_divisibles.end(), 1UL, [](auto first, auto second) { return std::lcm(first, second); });
+}
+
+double AocDay11::MonkeyInTheMiddle(const std::string &file, bool modeFix, size_t rounds)
 {
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
@@ -88,8 +97,8 @@ std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const st
         monkeys.emplace_back(monkey);
       }
     }
-    devideNumber = 3;
-    PlayRounds(20);
+    devideNumber = modeFix ? 3 : CalculateLcmOnDivisibles();
+    PlayRounds(rounds);
     std::sort(monkeysInspectedItemsCounter.begin(), monkeysInspectedItemsCounter.end(), std::greater<>());
     return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
   }
@@ -97,36 +106,14 @@ std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const st
   return 0.0;
 }
 
+std::variant<int, double, std::string> AocDay11::Part1([[maybe_unused]] const std::string &file,
+  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+{
+  return MonkeyInTheMiddle(file, true, 20);
+}
+
 std::variant<int, double, std::string> AocDay11::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string line;
-    while (std::getline(file_stream, line)) {
-      if (line.rfind("Monkey", 0) == 0) {
-        Monkey monkey;
-        monkey.id = stoi(line.substr(line.find(' ') + 1));
-        monkeysInspectedItemsCounter.emplace_back(0);
-
-        while (std::getline(file_stream, line)) {
-          if (line.empty()) { break; }
-          ParseLine(monkey, line);
-        }
-        monkeys.emplace_back(monkey);
-      }
-    }
-    std::vector<unsigned long> all_divisibles;
-    std::transform(monkeys.begin(), monkeys.end(), std::back_inserter(all_divisibles), [](const auto &monkey) {
-      return monkey.divisible;
-    });
-    devideNumber = std::accumulate(all_divisibles.begin(), all_divisibles.end(), 1UL, [](auto first, auto second) {
-      return std::lcm(first, second);
-    });
-    PlayRounds(10000);
-    std::sort(monkeysInspectedItemsCounter.begin(), monkeysInspectedItemsCounter.end(), std::greater<>());
-    return monkeysInspectedItemsCounter.at(0) * monkeysInspectedItemsCounter.at(1);
-  }
-  file_stream.close();
-  return 0.0;
+  return MonkeyInTheMiddle(file, false, 10000);
 }

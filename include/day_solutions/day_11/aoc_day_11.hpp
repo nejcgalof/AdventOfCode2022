@@ -30,6 +30,8 @@ private:
   static void ParseLine(Monkey &monkey, std::string &line);
   void PlayRounds(size_t rounds);
   void MonkeyMove(Monkey &monkey);
+  unsigned long CalculateLcmOnDivisibles();
+  double MonkeyInTheMiddle(const std::string &file, bool modeFix, size_t rounds);
 
   std::vector<Monkey> monkeys;
   std::vector<double> monkeysInspectedItemsCounter;
