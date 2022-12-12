@@ -17,6 +17,13 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
+  void CheckItem(size_t lineCharacter, size_t character);
+
+  size_t start = 0;
+  size_t end = 0;
+  std::vector<std::vector<char>> characters;
+  std::vector<std::tuple<size_t, std::vector<size_t>>> connections;
+
 public:
   AocDay12();
   ~AocDay12() override;
