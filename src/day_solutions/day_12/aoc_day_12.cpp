@@ -97,21 +97,15 @@ std::variant<int, double, std::string> AocDay12::Part1([[maybe_unused]] const st
   PrintConnections();
 
   std::vector<bool> visited(characters.size() * characters.at(0).size(), false);
-  std::queue<std::vector<size_t>> queue;
-  queue.emplace(std::vector<size_t>{ start });
+  std::queue<std::pair<size_t, size_t>> queue;
+  queue.emplace(std::make_pair(start, 0));
   while (!queue.empty()) {
-    auto path = queue.front();
+    auto [node, size] = queue.front();
     queue.pop();
-
-    const size_t node = path.back();
     visited.at(node) = true;
-    if (node == end) { return static_cast<int>(path.size() - 1); }
+    if (node == end) { return static_cast<int>(size); }
     for (auto &adjacent : connectionMap.at(node)) {
-      if (!visited.at(adjacent)) {
-        auto new_path = path;
-        new_path.emplace_back(adjacent);
-        queue.push(new_path);
-      }
+      if (!visited.at(adjacent)) { queue.push(std::make_pair(adjacent, size + 1)); }
     }
   }
 
