@@ -26,26 +26,26 @@ void AocDay12::CheckItem(size_t lineCharacter, size_t character)
       lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(right_index);
     const int right = characters.at(lineCharacter).at(static_cast<size_t>(right_index)) - '0';
     std::cout << "curr " << curr << "right " << right << std::endl;
-    if (curr - 1 <= right && right <= curr + 1) { curr_connections.emplace_back(right_position); }
+    if (curr >= right || right == curr + 1) { curr_connections.emplace_back(right_position); }
   }
   if (up_index != -1) {
     const size_t upper_position = static_cast<size_t>(up_index) * characters.at(lineCharacter).size() + character;
     const int upper = characters.at(static_cast<size_t>(up_index)).at(character) - '0';
     std::cout << "curr " << curr << "up " << upper << std::endl;
-    if (curr - 1 <= upper && upper <= curr + 1) { curr_connections.emplace_back(upper_position); }
+    if (curr >= upper || upper == curr + 1) { curr_connections.emplace_back(upper_position); }
   }
   if (left_index != -1) {
     const size_t left_position = lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(left_index);
     const int left = characters.at(lineCharacter).at(static_cast<size_t>(left_index)) - '0';
     std::cout << "curr " << curr << "left " << left << std::endl;
-    if (curr - 1 <= left && left <= curr + 1) { curr_connections.emplace_back(left_position); }
+    if (curr >= left || left == curr + 1) { curr_connections.emplace_back(left_position); }
   }
   if (down_index != static_cast<int>(characters.size())) {
     const size_t down_position = static_cast<size_t>(down_index) * characters.at(lineCharacter).size() + character;
     const int down = characters.at(static_cast<size_t>(down_index)).at(character) - '0';
     std::cout << "curr " << curr << "down " << down << std::endl;
     std::cout << "looking char " << characters.at(static_cast<size_t>(down_index)).at(character) << std::endl;
-    if (curr - 1 <= down && down <= curr + 1) { curr_connections.emplace_back(down_position); }
+    if (curr >= down || down == curr + 1) { curr_connections.emplace_back(down_position); }
   }
   std::cout << "curr_connections" << std::endl;
   for (auto &aaa : curr_connections) { std::cout << aaa << " "; }
