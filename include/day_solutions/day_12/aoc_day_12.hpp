@@ -1,6 +1,7 @@
 #ifndef ADVENTOFCODE_AOC_DAY_12_HPP
 #define ADVENTOFCODE_AOC_DAY_12_HPP
 
+#include <map>
 #include <stddef.h>
 #include <string>
 #include <tuple>
@@ -19,10 +20,12 @@ private:
 
   void CheckItem(size_t lineCharacter, size_t character);
 
+  void PrintConnections();
+
   size_t start = 0;
   size_t end = 0;
   std::vector<std::vector<char>> characters;
-  std::vector<std::tuple<size_t, std::vector<size_t>>> connections;
+  std::map<size_t, std::vector<size_t>> connectionMap;
 
 public:
   AocDay12();
