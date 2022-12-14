@@ -79,6 +79,47 @@ void AocDay12::CheckItem2(size_t lineCharacter, size_t character)
   connectionMap[current_position] = curr_connections;
 }
 
+void AocDay12::ModifyStartEnd(bool reverse, size_t lineCharacter, size_t character)
+{
+  const size_t current_position = lineCharacter * characters.at(lineCharacter).size() + character;
+  if (reverse) {
+    if (characters.at(lineCharacter).at(character) == 'S') {
+      characters.at(lineCharacter).at(character) = 'a';
+    } else if (characters.at(lineCharacter).at(character) == 'E') {
+      start = current_position;
+      characters.at(lineCharacter).at(character) = 'z';
+    }
+    if (characters.at(lineCharacter).at(character) == 'a') { end.emplace_back(current_position); }
+  } else {
+    if (characters.at(lineCharacter).at(character) == 'S') {
+      start = current_position;
+      characters.at(lineCharacter).at(character) = 'a';
+    } else if (characters.at(lineCharacter).at(character) == 'E') {
+      end.emplace_back(current_position);
+      characters.at(lineCharacter).at(character) = 'z';
+    }
+  }
+}
+
+void AocDay12::ModifyStartEndAndCheckItems(bool reverse)
+{
+  connectionMap.resize(characters.size() * characters.at(0).size());
+  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
+    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
+      ModifyStartEnd(reverse, line_character, character);
+    }
+  }
+  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
+    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
+      if (reverse) {
+        CheckItem2(line_character, character);
+      } else {
+        CheckItem(line_character, character);
+      }
+    }
+  }
+}
+
 int AocDay12::BFS()
 {
   std::vector<bool> visited(characters.size() * characters.at(0).size(), false);
@@ -86,93 +127,44 @@ int AocDay12::BFS()
   queue.push(std::make_pair(start, 0));
   while (!queue.empty()) {
     const auto &[node, size] = queue.front();
-    if (!visited.at(node)) {
-      visited.at(node) = true;
-    } else {
+    if (visited.at(node)) {
       queue.pop();
       continue;
     }
+    visited.at(node) = true;
     if (std::find(end.begin(), end.end(), node) != end.end()) { return static_cast<int>(size); }
     for (const auto &adjacent : connectionMap.at(node)) {
       if (!visited.at(adjacent)) { queue.push(std::make_pair(adjacent, size + 1)); }
     }
     queue.pop();
   }
-
   return 0;
+}
+
+// https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+int AocDay12::HillClimbingProblemFromFile(const std::string &file, bool reverse)
+{
+  std::ifstream file_stream(file);
+  if (file_stream.is_open()) {
+    std::string line;
+    while (std::getline(file_stream, line)) { characters.emplace_back(line.begin(), line.end()); }
+    file_stream.close();
+  } else {
+    return 0;
+  }
+
+  ModifyStartEndAndCheckItems(reverse);
+  return BFS();
 }
 
 std::variant<int, double, std::string> AocDay12::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string line;
-    while (std::getline(file_stream, line)) { characters.emplace_back(line.begin(), line.end()); }
-  } else {
-    return 0;
-  }
-  file_stream.close();
-
-  // Modify start and end
-  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
-    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
-      const size_t current_position = line_character * characters.at(line_character).size() + character;
-      if (characters.at(line_character).at(character) == 'S') {
-        start = current_position;
-        characters.at(line_character).at(character) = 'a';
-      } else if (characters.at(line_character).at(character) == 'E') {
-        end.emplace_back(current_position);
-        characters.at(line_character).at(character) = 'z';
-      }
-    }
-  }
-
-  connectionMap.resize(characters.size() * characters.at(0).size());
-
-  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
-    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
-      CheckItem(line_character, character);
-    }
-  }
-
-  // https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
-  return BFS();
+  return HillClimbingProblemFromFile(file, false);
 }
 
 std::variant<int, double, std::string> AocDay12::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string line;
-    while (std::getline(file_stream, line)) { characters.emplace_back(line.begin(), line.end()); }
-  } else {
-    return 0;
-  }
-  file_stream.close();
-
-  // Modify start and end
-  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
-    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
-      const size_t current_position = line_character * characters.at(line_character).size() + character;
-      if (characters.at(line_character).at(character) == 'S') {
-        characters.at(line_character).at(character) = 'a';
-      } else if (characters.at(line_character).at(character) == 'E') {
-        start = current_position;
-        characters.at(line_character).at(character) = 'z';
-      }
-      if (characters.at(line_character).at(character) == 'a') { end.emplace_back(current_position); }
-    }
-  }
-
-  connectionMap.resize(characters.size() * characters.at(0).size());
-
-  for (size_t line_character = 0; line_character < characters.size(); line_character++) {
-    for (size_t character = 0; character < characters.at(line_character).size(); character++) {
-      CheckItem2(line_character, character);
-    }
-  }
-  // https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
-  return BFS();
+  return HillClimbingProblemFromFile(file, true);
 }

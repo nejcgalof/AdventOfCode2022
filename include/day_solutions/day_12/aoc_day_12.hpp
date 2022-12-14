@@ -20,8 +20,10 @@ private:
 
   void CheckItem(size_t lineCharacter, size_t character);
   void CheckItem2(size_t lineCharacter, size_t character);
-
+  void ModifyStartEndAndCheckItems(bool reverse);
+  void ModifyStartEnd(bool reverse, size_t lineCharacter, size_t character);
   int BFS();
+  int HillClimbingProblemFromFile(const std::string &file, bool reverse);
 
   size_t start = 0;
   std::vector<size_t> end;
