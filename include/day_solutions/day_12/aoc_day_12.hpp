@@ -21,11 +21,12 @@ private:
   void CheckItem(size_t lineCharacter, size_t character);
 
   void PrintConnections();
+  int BFS();
 
   size_t start = 0;
   size_t end = 0;
   std::vector<std::vector<char>> characters;
-  std::map<size_t, std::vector<size_t>> connectionMap;
+  std::vector<std::vector<size_t>> connectionMap;
 
 public:
   AocDay12();
