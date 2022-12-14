@@ -9,73 +9,65 @@ AocDay12::AocDay12() : AocDay(12) {}
 
 AocDay12::~AocDay12() = default;
 
-void AocDay12::CheckItem(size_t lineCharacter, size_t character)
+void AocDay12::CheckUp(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections)
 {
-  const size_t current_position = lineCharacter * characters.at(lineCharacter).size() + character;
   const int curr = characters.at(lineCharacter).at(character) - '0';
-
   const int up_index = static_cast<int>(lineCharacter) - 1;
-  const int down_index = static_cast<int>(lineCharacter) + 1;
-  const int left_index = static_cast<int>(character) - 1;
-  const int right_index = static_cast<int>(character) + 1;
-  std::vector<size_t> curr_connections;
-
-  if (right_index != static_cast<int>(characters.at(lineCharacter).size())) {
-    const size_t right_position =
-      lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(right_index);
-    const int right = characters.at(lineCharacter).at(static_cast<size_t>(right_index)) - '0';
-    if (curr >= right || right == curr + 1) { curr_connections.emplace_back(right_position); }
-  }
   if (up_index != -1) {
     const size_t upper_position = static_cast<size_t>(up_index) * characters.at(lineCharacter).size() + character;
     const int upper = characters.at(static_cast<size_t>(up_index)).at(character) - '0';
-    if (curr >= upper || upper == curr + 1) { curr_connections.emplace_back(upper_position); }
+    const bool check = !reverse ? (curr >= upper || upper == curr + 1) : (curr <= upper || upper == curr - 1);
+    if (check) { currConnections.emplace_back(upper_position); }
   }
-  if (left_index != -1) {
-    const size_t left_position = lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(left_index);
-    const int left = characters.at(lineCharacter).at(static_cast<size_t>(left_index)) - '0';
-    if (curr >= left || left == curr + 1) { curr_connections.emplace_back(left_position); }
-  }
-  if (down_index != static_cast<int>(characters.size())) {
-    const size_t down_position = static_cast<size_t>(down_index) * characters.at(lineCharacter).size() + character;
-    const int down = characters.at(static_cast<size_t>(down_index)).at(character) - '0';
-    if (curr >= down || down == curr + 1) { curr_connections.emplace_back(down_position); }
-  }
-  connectionMap[current_position] = curr_connections;
 }
 
-void AocDay12::CheckItem2(size_t lineCharacter, size_t character)
+void AocDay12::CheckDown(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections)
 {
-  const size_t current_position = lineCharacter * characters.at(lineCharacter).size() + character;
   const int curr = characters.at(lineCharacter).at(character) - '0';
-
-  const int up_index = static_cast<int>(lineCharacter) - 1;
   const int down_index = static_cast<int>(lineCharacter) + 1;
-  const int left_index = static_cast<int>(character) - 1;
-  const int right_index = static_cast<int>(character) + 1;
-  std::vector<size_t> curr_connections;
+  if (down_index != static_cast<int>(characters.size())) {
+    const size_t down_position = static_cast<size_t>(down_index) * characters.at(lineCharacter).size() + character;
+    const int down = characters.at(static_cast<size_t>(down_index)).at(character) - '0';
+    const bool check = !reverse ? (curr >= down || down == curr + 1) : (curr <= down || down == curr - 1);
+    if (check) { currConnections.emplace_back(down_position); }
+  }
+}
 
+void AocDay12::CheckLeft(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections)
+{
+  const int curr = characters.at(lineCharacter).at(character) - '0';
+  const int left_index = static_cast<int>(character) - 1;
+  if (left_index != -1) {
+    const size_t left_position = lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(left_index);
+    const int left = characters.at(lineCharacter).at(static_cast<size_t>(left_index)) - '0';
+    const bool check = !reverse ? (curr >= left || left == curr + 1) : (curr <= left || left == curr - 1);
+    if (check) { currConnections.emplace_back(left_position); }
+  }
+}
+
+void AocDay12::CheckRight(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections)
+{
+  const int curr = characters.at(lineCharacter).at(character) - '0';
+  const int right_index = static_cast<int>(character) + 1;
   if (right_index != static_cast<int>(characters.at(lineCharacter).size())) {
     const size_t right_position =
       lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(right_index);
     const int right = characters.at(lineCharacter).at(static_cast<size_t>(right_index)) - '0';
-    if (curr <= right || right == curr - 1) { curr_connections.emplace_back(right_position); }
+    const bool check = !reverse ? (curr >= right || right == curr + 1) : (curr <= right || right == curr - 1);
+    if (check) { currConnections.emplace_back(right_position); }
   }
-  if (up_index != -1) {
-    const size_t upper_position = static_cast<size_t>(up_index) * characters.at(lineCharacter).size() + character;
-    const int upper = characters.at(static_cast<size_t>(up_index)).at(character) - '0';
-    if (curr <= upper || upper == curr - 1) { curr_connections.emplace_back(upper_position); }
-  }
-  if (left_index != -1) {
-    const size_t left_position = lineCharacter * characters.at(lineCharacter).size() + static_cast<size_t>(left_index);
-    const int left = characters.at(lineCharacter).at(static_cast<size_t>(left_index)) - '0';
-    if (curr <= left || left == curr - 1) { curr_connections.emplace_back(left_position); }
-  }
-  if (down_index != static_cast<int>(characters.size())) {
-    const size_t down_position = static_cast<size_t>(down_index) * characters.at(lineCharacter).size() + character;
-    const int down = characters.at(static_cast<size_t>(down_index)).at(character) - '0';
-    if (curr <= down || down == curr - 1) { curr_connections.emplace_back(down_position); }
-  }
+}
+
+void AocDay12::CheckItem(bool reverse, size_t lineCharacter, size_t character)
+{
+
+  const size_t current_position = lineCharacter * characters.at(lineCharacter).size() + character;
+  std::vector<size_t> curr_connections;
+
+  CheckRight(reverse, lineCharacter, character, curr_connections);
+  CheckUp(reverse, lineCharacter, character, curr_connections);
+  CheckLeft(reverse, lineCharacter, character, curr_connections);
+  CheckDown(reverse, lineCharacter, character, curr_connections);
   connectionMap[current_position] = curr_connections;
 }
 
@@ -111,11 +103,7 @@ void AocDay12::ModifyStartEndAndCheckItems(bool reverse)
   }
   for (size_t line_character = 0; line_character < characters.size(); line_character++) {
     for (size_t character = 0; character < characters.at(line_character).size(); character++) {
-      if (reverse) {
-        CheckItem2(line_character, character);
-      } else {
-        CheckItem(line_character, character);
-      }
+      CheckItem(reverse, line_character, character);
     }
   }
 }

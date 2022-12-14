@@ -18,8 +18,11 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
-  void CheckItem(size_t lineCharacter, size_t character);
-  void CheckItem2(size_t lineCharacter, size_t character);
+  void CheckUp(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections);
+  void CheckDown(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections);
+  void CheckLeft(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections);
+  void CheckRight(bool reverse, size_t lineCharacter, size_t character, std::vector<size_t> &currConnections);
+  void CheckItem(bool reverse, size_t lineCharacter, size_t character);
   void ModifyStartEndAndCheckItems(bool reverse);
   void ModifyStartEnd(bool reverse, size_t lineCharacter, size_t character);
   int BFS();
