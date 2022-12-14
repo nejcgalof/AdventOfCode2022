@@ -19,12 +19,12 @@ private:
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
   void CheckItem(size_t lineCharacter, size_t character);
+  void CheckItem2(size_t lineCharacter, size_t character);
 
-  void PrintConnections();
   int BFS();
 
   size_t start = 0;
-  size_t end = 0;
+  std::vector<size_t> end;
   std::vector<std::vector<char>> characters;
   std::vector<std::vector<size_t>> connectionMap;
 
