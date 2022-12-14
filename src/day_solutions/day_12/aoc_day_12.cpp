@@ -86,6 +86,8 @@ std::variant<int, double, std::string> AocDay12::Part1([[maybe_unused]] const st
   if (file_stream.is_open()) {
     std::string line;
     while (std::getline(file_stream, line)) { characters.emplace_back(line.begin(), line.end()); }
+  } else {
+    return 0;
   }
   file_stream.close();
 

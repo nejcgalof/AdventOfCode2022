@@ -33,7 +33,7 @@ TEST_CASE("File not exist 12 day - part 2", "[day12]")
 TEST_CASE("Solve simple puzzle of the 12 day - part 1", "[day12]")
 {
   AocDays days;
-  REQUIRE(0
+  REQUIRE(31
           == std::get<int>(
             days.GetDay(12)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_12/simple.txt", {})));
 }
@@ -41,7 +41,7 @@ TEST_CASE("Solve simple puzzle of the 12 day - part 1", "[day12]")
 TEST_CASE("Solve actual puzzle of the 12 day - part 1", "[day12]")
 {
   AocDays days;
-  REQUIRE(0
+  REQUIRE(462
           == std::get<int>(
             days.GetDay(12)->SolvePart(1, "/workspaces/AdventOfCode2022/puzzle_inputs/day_12/puzzle.txt", {})));
 }
