@@ -1,9 +1,12 @@
 #include "day_12/aoc_day_12.hpp"
 
+#include <algorithm>
+#include <ext/alloc_traits.h>
 #include <fstream>
-#include <iostream>
+#include <memory>
 #include <queue>
-#include <tuple>
+#include <type_traits>
+#include <utility>
 
 AocDay12::AocDay12() : AocDay(12) {}
 
