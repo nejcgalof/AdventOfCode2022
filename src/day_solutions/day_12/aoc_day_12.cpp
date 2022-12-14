@@ -74,23 +74,18 @@ void AocDay12::CheckItem(bool reverse, size_t lineCharacter, size_t character)
 void AocDay12::ModifyStartEnd(bool reverse, size_t lineCharacter, size_t character)
 {
   const size_t current_position = lineCharacter * characters.at(lineCharacter).size() + character;
-  if (reverse) {
-    if (characters.at(lineCharacter).at(character) == 'S') {
-      characters.at(lineCharacter).at(character) = 'a';
-    } else if (characters.at(lineCharacter).at(character) == 'E') {
+  if (characters.at(lineCharacter).at(character) == 'S') {
+    characters.at(lineCharacter).at(character) = 'a';
+    if (!reverse) { start = current_position; }
+  } else if (characters.at(lineCharacter).at(character) == 'E') {
+    characters.at(lineCharacter).at(character) = 'z';
+    if (reverse) {
       start = current_position;
-      characters.at(lineCharacter).at(character) = 'z';
-    }
-    if (characters.at(lineCharacter).at(character) == 'a') { end.emplace_back(current_position); }
-  } else {
-    if (characters.at(lineCharacter).at(character) == 'S') {
-      start = current_position;
-      characters.at(lineCharacter).at(character) = 'a';
-    } else if (characters.at(lineCharacter).at(character) == 'E') {
+    } else {
       end.emplace_back(current_position);
-      characters.at(lineCharacter).at(character) = 'z';
     }
   }
+  if (reverse && characters.at(lineCharacter).at(character) == 'a') { end.emplace_back(current_position); }
 }
 
 void AocDay12::ModifyStartEndAndCheckItems(bool reverse)
