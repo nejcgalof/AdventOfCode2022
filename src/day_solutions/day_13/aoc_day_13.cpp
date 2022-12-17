@@ -58,6 +58,7 @@ int AocDay13::ComparePackets(List *firstPacket, List *secondPacket)
 {
   const int nullness = CheckNullptr(firstPacket, secondPacket);
   if (nullness >= 0) { return nullness; }
+
   const int check_emptiness = CheckEmptiness(firstPacket, secondPacket);
   if (check_emptiness == -1) {
     auto *first_parent = firstPacket->parent;
@@ -71,12 +72,15 @@ int AocDay13::ComparePackets(List *firstPacket, List *secondPacket)
     return check_emptiness;
   }
 
+  // Both lists
   if (std::holds_alternative<std::unique_ptr<List>>(firstPacket->packetData.at(0))
       && std::holds_alternative<std::unique_ptr<List>>(secondPacket->packetData.at(0))) {
     return ComparePackets(std::get<std::unique_ptr<List>>(firstPacket->packetData.at(0)).get(),
       std::get<std::unique_ptr<List>>(secondPacket->packetData.at(0)).get());
-  } else if (std::holds_alternative<int>(firstPacket->packetData.at(0))
-             && std::holds_alternative<int>(secondPacket->packetData.at(0))) {
+  }
+  // Both number
+  else if (std::holds_alternative<int>(firstPacket->packetData.at(0))
+           && std::holds_alternative<int>(secondPacket->packetData.at(0))) {
     auto first_number = std::get<int>(firstPacket->packetData.at(0));
     auto second_number = std::get<int>(secondPacket->packetData.at(0));
     if (first_number < second_number) {
@@ -88,12 +92,17 @@ int AocDay13::ComparePackets(List *firstPacket, List *secondPacket)
       secondPacket->packetData.erase(secondPacket->packetData.begin());
       return ComparePackets(firstPacket, secondPacket);
     }
-  } else {
+  }
+  // One list and one number
+  else {
+    // First number, second list
     if (std::holds_alternative<int>(firstPacket->packetData.at(0))) {
       auto new_one = std::make_unique<List>();
       new_one->packetData.emplace_back(std::move(firstPacket->packetData.at(0)));
       firstPacket->packetData.at(0) = std::move(new_one);
-    } else if (std::holds_alternative<int>(secondPacket->packetData.at(0))) {
+    }
+    // First list, second number
+    else if (std::holds_alternative<int>(secondPacket->packetData.at(0))) {
       auto new_one = std::make_unique<List>();
       new_one->packetData.emplace_back(std::move(secondPacket->packetData.at(0)));
       secondPacket->packetData.at(0) = std::move(new_one);
