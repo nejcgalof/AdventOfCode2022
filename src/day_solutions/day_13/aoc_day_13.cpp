@@ -129,9 +129,9 @@ std::variant<int, double, std::string> AocDay13::Part1([[maybe_unused]] const st
   return result;
 }
 
-void AocDay13::Sort(std::vector<Items> &items)
+void AocDay13::Sort(std::vector<Packet> &packets)
 {
-  std::sort(items.begin(), items.end(), [](const auto &first, const auto &second) {
+  std::sort(packets.begin(), packets.end(), [](const auto &first, const auto &second) {
     for (std::size_t i = 0; i < first.numbers.size(); i++) {
       if (i >= second.numbers.size()) { return false; }
       if (first.numbers.at(i) > second.numbers.at(i)) {
@@ -146,11 +146,11 @@ void AocDay13::Sort(std::vector<Items> &items)
   });
 }
 
-int AocDay13::FindPositionOfDividerPacketsAndMultiply(std::vector<Items> &items)
+int AocDay13::FindPositionOfDividerPacketsAndMultiply(std::vector<Packet> &packets)
 {
   int mult = 1;
-  for (size_t i = 0; i < items.size(); i++) {
-    if (items.at(i).seq == 0) { mult *= static_cast<int>(i + 1); }
+  for (size_t i = 0; i < packets.size(); i++) {
+    if (packets.at(i).isDividerPacket) { mult *= static_cast<int>(i + 1); }
   }
   return mult;
 }
@@ -162,12 +162,10 @@ std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const st
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
-    int counter = 1;
-    std::vector<Items> items;
+    std::vector<Packet> packets;
     while (std::getline(file_stream, line)) {
       if (line.empty()) { continue; }
-      Items item;
-      item.seq = counter;
+      Packet item;
       for (size_t character = 0; character < line.length(); character++) {
         if (line.at(character) == '[') {
           item.numNested++;
@@ -182,25 +180,24 @@ std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const st
           character += subs.find_first_not_of("0123456789") - 1;
         }
       }
-      items.emplace_back(item);
-      counter++;
+      packets.emplace_back(item);
     }
     file_stream.close();
 
-    Items first_divider_packet;
-    first_divider_packet.seq = 0;
+    Packet first_divider_packet;
+    first_divider_packet.isDividerPacket = true;
     first_divider_packet.numNested = 2;
     first_divider_packet.numbers.emplace_back(2);
-    items.emplace_back(first_divider_packet);
+    packets.emplace_back(first_divider_packet);
 
-    Items second_divider_packet;
-    second_divider_packet.seq = 0;
+    Packet second_divider_packet;
+    second_divider_packet.isDividerPacket = true;
     second_divider_packet.numNested = 2;
     second_divider_packet.numbers.emplace_back(6);
-    items.emplace_back(second_divider_packet);
+    packets.emplace_back(second_divider_packet);
 
-    Sort(items);
-    return FindPositionOfDividerPacketsAndMultiply(items);
+    Sort(packets);
+    return FindPositionOfDividerPacketsAndMultiply(packets);
   }
   return result;
 }

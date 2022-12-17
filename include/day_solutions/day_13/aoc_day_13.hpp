@@ -24,9 +24,9 @@ private:
     std::vector<std::variant<std::unique_ptr<List>, int>> packetData;
   };
 
-  struct Items
+  struct Packet
   {
-    int seq{ 0 };
+    bool isDividerPacket{ false };
     std::vector<int> numbers;
     int numNested{ 0 };
   };
@@ -36,8 +36,8 @@ private:
   static int CheckEmptiness(List *firstPacket, List *secondPacket);
   static int CheckNullptr(List *firstPacket, List *secondPacket);
 
-  static void Sort(std::vector<Items> &items);
-  static int FindPositionOfDividerPacketsAndMultiply(std::vector<Items> &items);
+  static void Sort(std::vector<Packet> &packets);
+  static int FindPositionOfDividerPacketsAndMultiply(std::vector<Packet> &packets);
 
 public:
   AocDay13();
