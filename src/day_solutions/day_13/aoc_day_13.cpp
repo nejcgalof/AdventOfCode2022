@@ -103,32 +103,6 @@ int AocDay13::ComparePackets(List *firstPacket, List *secondPacket)
   return 0;
 }
 
-std::variant<int, double, std::string> AocDay13::Part1([[maybe_unused]] const std::string &file,
-  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
-{
-  int result = 0;
-  std::ifstream file_stream(file);
-  if (file_stream.is_open()) {
-    std::string line;
-    std::vector<std::unique_ptr<List>> packets;
-    while (std::getline(file_stream, line)) {
-      if (line.empty()) { continue; }
-      auto packet = std::make_unique<List>();
-      ParseSequence(packet.get(), line);
-      packets.emplace_back(std::move(packet));
-    }
-    file_stream.close();
-
-    for (size_t pairs = 0; pairs < packets.size() / 2; pairs++) {
-      const size_t move = pairs * 2;
-      if (ComparePackets(packets.at(move).get(), packets.at(move + 1).get()) == 1) {
-        result += static_cast<int>(pairs + 1);
-      }
-    }
-  }
-  return result;
-}
-
 void AocDay13::Sort(std::vector<Packet> &packets)
 {
   std::sort(packets.begin(), packets.end(), [](const auto &first, const auto &second) {
@@ -155,14 +129,11 @@ int AocDay13::FindPositionOfDividerPacketsAndMultiply(std::vector<Packet> &packe
   return mult;
 }
 
-std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const std::string &file,
-  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+void AocDay13::GeneratePacketsFromFile(const std::string &file, std::vector<Packet> &packets)
 {
-  int result = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
-    std::vector<Packet> packets;
     while (std::getline(file_stream, line)) {
       if (line.empty()) { continue; }
       Packet item;
@@ -183,21 +154,54 @@ std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const st
       packets.emplace_back(item);
     }
     file_stream.close();
+  }
+}
 
-    Packet first_divider_packet;
-    first_divider_packet.isDividerPacket = true;
-    first_divider_packet.numNested = 2;
-    first_divider_packet.numbers.emplace_back(2);
-    packets.emplace_back(first_divider_packet);
+std::variant<int, double, std::string> AocDay13::Part1([[maybe_unused]] const std::string &file,
+  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+{
+  int result = 0;
+  std::ifstream file_stream(file);
+  if (file_stream.is_open()) {
+    std::string line;
+    std::vector<std::unique_ptr<List>> packets;
+    while (std::getline(file_stream, line)) {
+      if (line.empty()) { continue; }
+      auto packet = std::make_unique<List>();
+      ParseSequence(packet.get(), line);
+      packets.emplace_back(std::move(packet));
+    }
+    file_stream.close();
 
-    Packet second_divider_packet;
-    second_divider_packet.isDividerPacket = true;
-    second_divider_packet.numNested = 2;
-    second_divider_packet.numbers.emplace_back(6);
-    packets.emplace_back(second_divider_packet);
-
-    Sort(packets);
-    return FindPositionOfDividerPacketsAndMultiply(packets);
+    for (size_t pairs = 0; pairs < packets.size() / 2; pairs++) {
+      const size_t move = pairs * 2;
+      if (ComparePackets(packets.at(move).get(), packets.at(move + 1).get()) == 1) {
+        result += static_cast<int>(pairs + 1);
+      }
+    }
   }
   return result;
+}
+
+std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const std::string &file,
+  [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
+{
+  std::vector<Packet> packets;
+  GeneratePacketsFromFile(file, packets);
+  if (packets.empty()) { return 0; }
+
+  Packet first_divider_packet;
+  first_divider_packet.isDividerPacket = true;
+  first_divider_packet.numNested = 2;
+  first_divider_packet.numbers.emplace_back(2);
+  packets.emplace_back(first_divider_packet);
+
+  Packet second_divider_packet;
+  second_divider_packet.isDividerPacket = true;
+  second_divider_packet.numNested = 2;
+  second_divider_packet.numbers.emplace_back(6);
+  packets.emplace_back(second_divider_packet);
+
+  Sort(packets);
+  return FindPositionOfDividerPacketsAndMultiply(packets);
 }

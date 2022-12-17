@@ -38,6 +38,7 @@ private:
 
   static void Sort(std::vector<Packet> &packets);
   static int FindPositionOfDividerPacketsAndMultiply(std::vector<Packet> &packets);
+  static void GeneratePacketsFromFile(const std::string &file, std::vector<Packet> &packets);
 
 public:
   AocDay13();
