@@ -24,10 +24,20 @@ private:
     std::vector<std::variant<std::unique_ptr<List>, int>> packetData;
   };
 
+  struct Items
+  {
+    int seq{ 0 };
+    std::vector<int> numbers;
+    int numNested{ 0 };
+  };
+
   size_t ParseSequence(List *item, std::string line);
   static int ComparePackets(List *firstPacket, List *secondPacket);
   static int CheckEmptiness(List *firstPacket, List *secondPacket);
   static int CheckNullptr(List *firstPacket, List *secondPacket);
+
+  static void Sort(std::vector<Items> &items);
+  static int FindPositionOfDividerPacketsAndMultiply(std::vector<Items> &items);
 
 public:
   AocDay13();

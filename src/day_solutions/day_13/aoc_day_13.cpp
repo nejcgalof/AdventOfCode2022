@@ -129,8 +129,78 @@ std::variant<int, double, std::string> AocDay13::Part1([[maybe_unused]] const st
   return result;
 }
 
+void AocDay13::Sort(std::vector<Items> &items)
+{
+  std::sort(items.begin(), items.end(), [](const auto &first, const auto &second) {
+    for (std::size_t i = 0; i < first.numbers.size(); i++) {
+      if (i >= second.numbers.size()) { return false; }
+      if (first.numbers.at(i) > second.numbers.at(i)) {
+        return false;
+      } else if (first.numbers.at(i) == second.numbers.at(i)) {
+        continue;
+      } else {
+        return true;
+      }
+    }
+    return !(first.numbers.size() == second.numbers.size() && first.numNested > second.numNested);
+  });
+}
+
+int AocDay13::FindPositionOfDividerPacketsAndMultiply(std::vector<Items> &items)
+{
+  int mult = 1;
+  for (size_t i = 0; i < items.size(); i++) {
+    if (items.at(i).seq == 0) { mult *= static_cast<int>(i + 1); }
+  }
+  return mult;
+}
+
 std::variant<int, double, std::string> AocDay13::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  return 0;
+  int result = 0;
+  std::ifstream file_stream(file);
+  if (file_stream.is_open()) {
+    std::string line;
+    int counter = 1;
+    std::vector<Items> items;
+    while (std::getline(file_stream, line)) {
+      if (line.empty()) { continue; }
+      Items item;
+      item.seq = counter;
+      for (size_t character = 0; character < line.length(); character++) {
+        if (line.at(character) == '[') {
+          item.numNested++;
+        } else if (line.at(character) == ',' && line.at(character - 1) == ']') {
+          item.numbers.emplace_back(-1); // Indicator for endlist in list
+          continue;
+        } else if (line.at(character) == ']' || line.at(character) == ',') {
+          continue;
+        } else {
+          auto subs = line.substr(character);
+          item.numbers.emplace_back(std::stoi(line.substr(character, subs.find_first_not_of("0123456789"))));
+          character += subs.find_first_not_of("0123456789") - 1;
+        }
+      }
+      items.emplace_back(item);
+      counter++;
+    }
+    file_stream.close();
+
+    Items first_divider_packet;
+    first_divider_packet.seq = 0;
+    first_divider_packet.numNested = 2;
+    first_divider_packet.numbers.emplace_back(2);
+    items.emplace_back(first_divider_packet);
+
+    Items second_divider_packet;
+    second_divider_packet.seq = 0;
+    second_divider_packet.numNested = 2;
+    second_divider_packet.numbers.emplace_back(6);
+    items.emplace_back(second_divider_packet);
+
+    Sort(items);
+    return FindPositionOfDividerPacketsAndMultiply(items);
+  }
+  return result;
 }
