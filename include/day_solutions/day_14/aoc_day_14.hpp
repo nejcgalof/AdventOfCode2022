@@ -1,6 +1,7 @@
 #ifndef ADVENTOFCODE_AOC_DAY_14_HPP
 #define ADVENTOFCODE_AOC_DAY_14_HPP
 
+#include <map>
 #include <memory>
 #include <stddef.h>
 #include <string>
@@ -24,9 +25,8 @@ private:
   };
 
   int maxY{ 0 };
-  std::vector<Block> solidMaterials;
+  std::map<int, std::map<int, Block>> solidMaterialsMap; // Duplicate data, but ready, if Block have another properties
 
-  void PrintSolidMaterials() const;
   void CreateBlocksBetweenX(const Block &from, const Block &target);
   void CreateBlocksBetweenY(const Block &from, const Block &target);
   void GenerateRockPathFromBlocks(std::vector<Block> blocksFromRock);
@@ -35,7 +35,6 @@ private:
   void ReadBlocksFromFile(const std::string &file);
   int FallingSand();
   int FallingSandFull();
-  void AddFloor();
 
 public:
   AocDay14();

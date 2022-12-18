@@ -13,11 +13,6 @@ AocDay14::AocDay14() : AocDay(14) {}
 
 AocDay14::~AocDay14() = default;
 
-void AocDay14::PrintSolidMaterials() const
-{
-  for (const auto &block : solidMaterials) { std::cout << block.x << "," << block.y << std::endl; }
-}
-
 void AocDay14::UpdateMaxY(const Block &block) { maxY = std::max(maxY, block.y); }
 
 void AocDay14::CreateBlocksBetweenX(const Block &from, const Block &target)
@@ -27,14 +22,14 @@ void AocDay14::CreateBlocksBetweenX(const Block &from, const Block &target)
       Block intermediate_block;
       intermediate_block.x = path_move;
       intermediate_block.y = target.y;
-      solidMaterials.emplace_back(intermediate_block);
+      solidMaterialsMap[intermediate_block.x][intermediate_block.y] = intermediate_block;
     }
   } else {
     for (auto path_move = from.x; path_move > target.x; path_move--) {
       Block intermediate_block;
       intermediate_block.x = path_move;
       intermediate_block.y = target.y;
-      solidMaterials.emplace_back(intermediate_block);
+      solidMaterialsMap[intermediate_block.x][intermediate_block.y] = intermediate_block;
     }
   }
 }
@@ -46,14 +41,14 @@ void AocDay14::CreateBlocksBetweenY(const Block &from, const Block &target)
       Block intermediate_block;
       intermediate_block.y = path_move;
       intermediate_block.x = target.x;
-      solidMaterials.emplace_back(intermediate_block);
+      solidMaterialsMap[intermediate_block.x][intermediate_block.y] = intermediate_block;
     }
   } else {
     for (auto path_move = from.y; path_move > target.y; path_move--) {
       Block intermediate_block;
       intermediate_block.y = path_move;
       intermediate_block.x = target.x;
-      solidMaterials.emplace_back(intermediate_block);
+      solidMaterialsMap[intermediate_block.x][intermediate_block.y] = intermediate_block;
     }
   }
 }
@@ -67,7 +62,8 @@ void AocDay14::GenerateRockPathFromBlocks(std::vector<Block> blocksFromRock)
       CreateBlocksBetweenY(blocksFromRock.at(iter - 1), blocksFromRock.at(iter));
     }
   }
-  solidMaterials.emplace_back(blocksFromRock.at(blocksFromRock.size() - 1));
+  const Block end_block = blocksFromRock.at(blocksFromRock.size() - 1);
+  solidMaterialsMap[end_block.x][end_block.y] = end_block;
 }
 
 AocDay14::Block AocDay14::GetBlockFromString(const std::string &blockString)
@@ -100,41 +96,34 @@ void AocDay14::ReadBlocksFromFile(const std::string &file)
     }
     file_stream.close();
   }
-  // PrintSolidMaterials();
-  // std::cout << "MaxY: " << maxY << std::endl;
 }
 
 int AocDay14::FallingSand()
 {
   int num_sand = 0;
+  if (solidMaterialsMap.empty()) { return num_sand; }
   Block sand;
   sand.x = 500;
   sand.y = 0;
   while (sand.y <= maxY) {
-    auto down_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == down_exist) {
+    if (!(solidMaterialsMap.find(sand.x) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x].find(sand.y + 1) != solidMaterialsMap[sand.x].end())) {
       sand.y += 1;
       continue;
     }
-    auto left_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x - 1 == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == left_exist) {
+    if (!(solidMaterialsMap.find(sand.x - 1) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x - 1].find(sand.y + 1) != solidMaterialsMap[sand.x - 1].end())) {
       sand.y += 1;
       sand.x -= 1;
       continue;
     }
-    auto right_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x + 1 == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == right_exist) {
+    if (!(solidMaterialsMap.find(sand.x + 1) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x + 1].find(sand.y + 1) != solidMaterialsMap[sand.x + 1].end())) {
       sand.y += 1;
       sand.x += 1;
       continue;
     }
-    solidMaterials.emplace_back(sand);
+    solidMaterialsMap[sand.x][sand.y] = sand;
     sand.x = 500;
     sand.y = 0;
     num_sand++;
@@ -142,60 +131,40 @@ int AocDay14::FallingSand()
   return num_sand;
 }
 
-void AocDay14::AddFloor()
-{
-  maxY += 2;
-  /*std::vector<Block> corner_blocks_floor;
-  Block left_floor;
-  left_floor.x = -100;
-  left_floor.y = maxY;
-  corner_blocks_floor.emplace_back(left_floor);
-  Block right_floor;
-  right_floor.x = 1100;
-  right_floor.y = maxY;
-  corner_blocks_floor.emplace_back(right_floor);
-  GenerateRockPathFromBlocks(corner_blocks_floor);*/
-}
-
 int AocDay14::FallingSandFull()
 {
   int num_sand = 0;
+  if (solidMaterialsMap.empty()) { return num_sand; }
   Block sand;
   sand.x = 500;
   sand.y = 0;
   while (true) {
     if (sand.y + 1 == maxY) {
-      solidMaterials.emplace_back(sand);
+      solidMaterialsMap[sand.x][sand.y] = sand;
       sand.x = 500;
       sand.y = 0;
       num_sand++;
       continue;
     }
-    auto down_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == down_exist) {
+    if (!(solidMaterialsMap.find(sand.x) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x].find(sand.y + 1) != solidMaterialsMap[sand.x].end())) {
       sand.y += 1;
       continue;
     }
-    auto left_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x - 1 == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == left_exist) {
+    if (!(solidMaterialsMap.find(sand.x - 1) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x - 1].find(sand.y + 1) != solidMaterialsMap[sand.x - 1].end())) {
       sand.y += 1;
       sand.x -= 1;
       continue;
     }
-    auto right_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
-      return sand.x + 1 == block.x && sand.y + 1 == block.y;
-    });
-    if (solidMaterials.end() == right_exist) {
+    if (!(solidMaterialsMap.find(sand.x + 1) != solidMaterialsMap.end()
+          && solidMaterialsMap[sand.x + 1].find(sand.y + 1) != solidMaterialsMap[sand.x + 1].end())) {
       sand.y += 1;
       sand.x += 1;
       continue;
     }
     if (sand.x == 500 && sand.y == 0) { return num_sand + 1; }
-    solidMaterials.emplace_back(sand);
+    solidMaterialsMap[sand.x][sand.y] = sand;
     sand.x = 500;
     sand.y = 0;
     num_sand++;
@@ -214,6 +183,6 @@ std::variant<int, double, std::string> AocDay14::Part2([[maybe_unused]] const st
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
   ReadBlocksFromFile(file);
-  AddFloor();
+  maxY += 2;
   return FallingSandFull();
 }
