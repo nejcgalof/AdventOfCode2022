@@ -30,7 +30,8 @@ private:
   void CreateBlocksBetweenX(const Block &from, const Block &target);
   void CreateBlocksBetweenY(const Block &from, const Block &target);
   void GenerateRockPathFromBlocks(std::vector<Block> blocksFromRock);
-  static Block GetBlockFromString(const std::string &blockString);
+  void UpdateMaxY(const Block &block);
+  Block GetBlockFromString(const std::string &blockString);
   int ReadBlocksFromFile(const std::string &file);
 
 public:

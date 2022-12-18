@@ -18,6 +18,8 @@ void AocDay14::PrintSolidMaterials() const
   for (const auto &block : solidMaterials) { std::cout << block.x << "," << block.y << std::endl; }
 }
 
+void AocDay14::UpdateMaxY(const Block &block) { maxY = std::max(maxY, block.y); }
+
 void AocDay14::CreateBlocksBetweenX(const Block &from, const Block &target)
 {
   if (from.x < target.x) {
@@ -74,6 +76,7 @@ AocDay14::Block AocDay14::GetBlockFromString(const std::string &blockString)
   Block block;
   block.x = std::stoi(blockString.substr(0, pos));
   block.y = std::stoi(blockString.substr(pos + 1));
+  UpdateMaxY(block); // I know this is the corner (limit) blocks - one of them have maxY
   return block;
 }
 
@@ -99,6 +102,7 @@ int AocDay14::ReadBlocksFromFile(const std::string &file)
     file_stream.close();
   }
   PrintSolidMaterials();
+  std::cout << "MaxY: " << maxY << std::endl;
   return result;
 }
 
