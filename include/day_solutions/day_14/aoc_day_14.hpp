@@ -34,6 +34,8 @@ private:
   Block GetBlockFromString(const std::string &blockString);
   void ReadBlocksFromFile(const std::string &file);
   int FallingSand();
+  int FallingSandFull();
+  void AddFloor();
 
 public:
   AocDay14();

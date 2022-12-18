@@ -142,6 +142,67 @@ int AocDay14::FallingSand()
   return num_sand;
 }
 
+void AocDay14::AddFloor()
+{
+  maxY += 2;
+  /*std::vector<Block> corner_blocks_floor;
+  Block left_floor;
+  left_floor.x = -100;
+  left_floor.y = maxY;
+  corner_blocks_floor.emplace_back(left_floor);
+  Block right_floor;
+  right_floor.x = 1100;
+  right_floor.y = maxY;
+  corner_blocks_floor.emplace_back(right_floor);
+  GenerateRockPathFromBlocks(corner_blocks_floor);*/
+}
+
+int AocDay14::FallingSandFull()
+{
+  int num_sand = 0;
+  Block sand;
+  sand.x = 500;
+  sand.y = 0;
+  while (true) {
+    if (sand.y + 1 == maxY) {
+      solidMaterials.emplace_back(sand);
+      sand.x = 500;
+      sand.y = 0;
+      num_sand++;
+      continue;
+    }
+    auto down_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == down_exist) {
+      sand.y += 1;
+      continue;
+    }
+    auto left_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x - 1 == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == left_exist) {
+      sand.y += 1;
+      sand.x -= 1;
+      continue;
+    }
+    auto right_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x + 1 == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == right_exist) {
+      sand.y += 1;
+      sand.x += 1;
+      continue;
+    }
+    if (sand.x == 500 && sand.y == 0) { return num_sand + 1; }
+    solidMaterials.emplace_back(sand);
+    sand.x = 500;
+    sand.y = 0;
+    num_sand++;
+  }
+  return num_sand;
+}
+
 std::variant<int, double, std::string> AocDay14::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
@@ -152,5 +213,7 @@ std::variant<int, double, std::string> AocDay14::Part1([[maybe_unused]] const st
 std::variant<int, double, std::string> AocDay14::Part2([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  return 0;
+  ReadBlocksFromFile(file);
+  AddFloor();
+  return FallingSandFull();
 }
