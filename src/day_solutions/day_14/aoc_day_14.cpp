@@ -2,12 +2,8 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <ext/alloc_traits.h>
 #include <fstream>
-#include <iostream>
 #include <memory>
-#include <type_traits>
-#include <utility>
 
 AocDay14::AocDay14() : AocDay(14) {}
 
