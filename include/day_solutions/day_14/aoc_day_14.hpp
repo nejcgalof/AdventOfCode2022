@@ -32,7 +32,8 @@ private:
   void GenerateRockPathFromBlocks(std::vector<Block> blocksFromRock);
   void UpdateMaxY(const Block &block);
   Block GetBlockFromString(const std::string &blockString);
-  int ReadBlocksFromFile(const std::string &file);
+  void ReadBlocksFromFile(const std::string &file);
+  int FallingSand();
 
 public:
   AocDay14();

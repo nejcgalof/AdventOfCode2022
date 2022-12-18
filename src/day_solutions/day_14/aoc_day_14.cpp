@@ -80,9 +80,8 @@ AocDay14::Block AocDay14::GetBlockFromString(const std::string &blockString)
   return block;
 }
 
-int AocDay14::ReadBlocksFromFile(const std::string &file)
+void AocDay14::ReadBlocksFromFile(const std::string &file)
 {
-  int result = 0;
   std::ifstream file_stream(file);
   if (file_stream.is_open()) {
     std::string line;
@@ -101,15 +100,53 @@ int AocDay14::ReadBlocksFromFile(const std::string &file)
     }
     file_stream.close();
   }
-  PrintSolidMaterials();
-  std::cout << "MaxY: " << maxY << std::endl;
-  return result;
+  // PrintSolidMaterials();
+  // std::cout << "MaxY: " << maxY << std::endl;
+}
+
+int AocDay14::FallingSand()
+{
+  int num_sand = 0;
+  Block sand;
+  sand.x = 500;
+  sand.y = 0;
+  while (sand.y <= maxY) {
+    auto down_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == down_exist) {
+      sand.y += 1;
+      continue;
+    }
+    auto left_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x - 1 == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == left_exist) {
+      sand.y += 1;
+      sand.x -= 1;
+      continue;
+    }
+    auto right_exist = std::find_if(solidMaterials.begin(), solidMaterials.end(), [&sand](const auto &block) {
+      return sand.x + 1 == block.x && sand.y + 1 == block.y;
+    });
+    if (solidMaterials.end() == right_exist) {
+      sand.y += 1;
+      sand.x += 1;
+      continue;
+    }
+    solidMaterials.emplace_back(sand);
+    sand.x = 500;
+    sand.y = 0;
+    num_sand++;
+  }
+  return num_sand;
 }
 
 std::variant<int, double, std::string> AocDay14::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
-  return ReadBlocksFromFile(file);
+  ReadBlocksFromFile(file);
+  return FallingSand();
 }
 
 std::variant<int, double, std::string> AocDay14::Part2([[maybe_unused]] const std::string &file,
