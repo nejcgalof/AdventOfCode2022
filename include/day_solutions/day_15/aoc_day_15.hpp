@@ -16,8 +16,31 @@ private:
   std::variant<int, double, std::string> Part2([[maybe_unused]] const std::string &file,
     [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs) override;
 
+  struct Sensor
+  {
+    int x{ 0 };
+    int y{ 0 };
+  };
+
+  struct Beacon
+  {
+    int x{ 0 };
+    int y{ 0 };
+  };
+
+  struct Report
+  {
+    Sensor sensor;
+    Beacon beacon;
+  };
+
+  std::vector<Report> reports;
+
+  void ReadReportsFromFile(const std::string &file);
+
 public:
   AocDay15();
+
   ~AocDay15() override;
 };
 
