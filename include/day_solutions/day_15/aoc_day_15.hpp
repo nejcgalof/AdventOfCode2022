@@ -2,6 +2,7 @@
 #define ADVENTOFCODE_AOC_DAY_15_HPP
 
 #include <map>
+#include <set>
 #include <string>
 #include <variant>
 #include <vector>
@@ -35,8 +36,13 @@ private:
   };
 
   std::vector<Report> reports;
+  std::set<int> lineCoverage;
 
   void ReadReportsFromFile(const std::string &file);
+
+  static int ManhattanDistance(int x1, int y1, int x2, int y2);
+
+  void CheckAllPoints();
 
 public:
   AocDay15();

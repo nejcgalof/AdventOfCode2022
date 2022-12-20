@@ -37,11 +37,37 @@ void AocDay15::ReadReportsFromFile(const std::string &file)
       reports.emplace_back(report);
     }
 
-    for (const auto &report : reports) {
+    /*for (const auto &report : reports) {
       std::cout << "Sensor " << report.sensor.x << ", " << report.sensor.y;
       std::cout << " Beacon " << report.beacon.x << ", " << report.beacon.y << std::endl;
-    }
+    }*/
     file_stream.close();
+  }
+}
+
+int AocDay15::ManhattanDistance(int x1, int y1, int x2, int y2) { return std::abs(x1 - x2) + std::abs(y1 - y2); }
+
+void AocDay15::CheckAllPoints()
+{
+  const int checked_y = 2000000;
+  for (const auto &report : reports) {
+    const int manhattan_distance =
+      ManhattanDistance(report.sensor.x, report.sensor.y, report.beacon.x, report.beacon.y);
+    for (int check = report.sensor.x; check >= report.sensor.x - manhattan_distance; check--) {
+      const int manhattan_distance_temp = ManhattanDistance(report.sensor.x, report.sensor.y, check, checked_y);
+      if (manhattan_distance_temp > manhattan_distance) { break; }
+      lineCoverage.insert(check);
+    }
+    for (int check = report.sensor.x; check <= report.sensor.x + manhattan_distance; check++) {
+      const int manhattan_distance_temp = ManhattanDistance(report.sensor.x, report.sensor.y, check, checked_y);
+      if (manhattan_distance_temp > manhattan_distance) { break; }
+      lineCoverage.insert(check);
+    }
+  }
+
+  for (const auto &report : reports) {
+    if (report.beacon.y == checked_y) { lineCoverage.erase(report.beacon.x); }
+    // if (report.sensor.y == checked_y) { lineCoverage.erase(report.sensor.x); }
   }
 }
 
@@ -50,7 +76,8 @@ std::variant<int, double, std::string> AocDay15::Part1([[maybe_unused]] const st
 {
   ReadReportsFromFile(file);
   if (reports.empty()) { return 0; }
-  return 0;
+  CheckAllPoints();
+  return static_cast<int>(lineCoverage.size());
 }
 
 std::variant<int, double, std::string> AocDay15::Part2([[maybe_unused]] const std::string &file,
