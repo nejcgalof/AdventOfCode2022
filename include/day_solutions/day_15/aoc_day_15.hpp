@@ -4,6 +4,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <variant>
 #include <vector>
 
@@ -36,13 +37,16 @@ private:
   };
 
   std::vector<Report> reports;
-  std::set<int> lineCoverage;
+  std::vector<std::unordered_set<int>> allLineCoverages;
+  std::unordered_set<int> lineCoverage;
 
   void ReadReportsFromFile(const std::string &file);
 
   static int ManhattanDistance(int x1, int y1, int x2, int y2);
 
   void CheckAllPoints();
+  void CheckAllPoints2(int checked_y);
+  void CheckAllLines();
 
 public:
   AocDay15();
