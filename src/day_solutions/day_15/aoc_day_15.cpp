@@ -74,31 +74,37 @@ void AocDay15::CheckAllPoints()
   }
 }
 
-double AocDay15::CheckAllLines() const
+size_t AocDay15::CalculateLineRanges(int line)
+{
+  ranges.clear();
+  for (const auto &report : reports) {
+    const int manhattan_distance =
+      ManhattanDistance(report.sensor.x, report.sensor.y, report.beacon.x, report.beacon.y);
+    const int side = manhattan_distance - std::abs(report.sensor.y - line);
+    if (side < 0) { continue; }
+    ranges.emplace_back(report.sensor.x - side, report.sensor.x + side);
+  }
+
+  std::sort(ranges.begin(), ranges.end(), [](const auto &firstCell, const auto &secondCell) {
+    return firstCell.from < secondCell.from;
+  });
+
+  size_t r = 0;
+  for (size_t i = 1; i < ranges.size(); i++) {
+    if (ranges[r].to >= ranges[i].from) {
+      ranges[r].to = std::max(ranges[r].to, ranges[i].to);
+    } else {
+      r++;
+      ranges[r] = ranges[i];
+    }
+  }
+  return r;
+}
+
+double AocDay15::CheckAllLines()
 {
   for (int step = 0; step <= 4000000; step++) {
-    std::vector<Range> ranges;
-    for (const auto &report : reports) {
-      const int manhattan_distance =
-        ManhattanDistance(report.sensor.x, report.sensor.y, report.beacon.x, report.beacon.y);
-      const int side = manhattan_distance - std::abs(report.sensor.y - step);
-      if (side < 0) { continue; }
-      ranges.emplace_back(report.sensor.x - side, report.sensor.x + side);
-    }
-
-    std::sort(ranges.begin(), ranges.end(), [](const auto &firstCell, const auto &secondCell) {
-      return firstCell.from < secondCell.from;
-    });
-
-    size_t r = 0;
-    for (size_t i = 1; i < ranges.size(); i++) {
-      if (ranges[r].to >= ranges[i].from) {
-        ranges[r].to = std::max(ranges[r].to, ranges[i].to);
-      } else {
-        r++;
-        ranges[r] = ranges[i];
-      }
-    }
+    auto r = CalculateLineRanges(step);
     if (r > 0) { return static_cast<double>(ranges[0].to + 1) * 4000000 + static_cast<double>(step); }
   }
   return 0;

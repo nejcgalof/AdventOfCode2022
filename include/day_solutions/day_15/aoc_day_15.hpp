@@ -53,8 +53,9 @@ private:
   static constexpr int ManhattanDistance(int x1, int y1, int x2, int y2);
 
   void CheckAllPoints();
-
-  double CheckAllLines() const;
+  std::vector<Range> ranges;
+  size_t CalculateLineRanges(int line);
+  double CheckAllLines();
 
 public:
   AocDay15();
