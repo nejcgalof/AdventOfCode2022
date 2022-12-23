@@ -30,6 +30,14 @@ private:
     int y{ 0 };
   };
 
+  struct Range
+  {
+    Range(int fromInput, int toInput) : from(fromInput), to(toInput) {}
+
+    int from{ 0 };
+    int to{ 0 };
+  };
+
   struct Report
   {
     Sensor sensor;
@@ -42,12 +50,11 @@ private:
 
   void ReadReportsFromFile(const std::string &file);
 
-  static int ManhattanDistance(int x1, int y1, int x2, int y2);
-  int findedLine{ 0 };
+  static constexpr int ManhattanDistance(int x1, int y1, int x2, int y2);
 
   void CheckAllPoints();
-  void CheckAllPoints2(int checked_y);
-  void CheckAllLines();
+
+  double CheckAllLines() const;
 
 public:
   AocDay15();
