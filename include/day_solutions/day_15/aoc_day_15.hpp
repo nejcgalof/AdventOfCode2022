@@ -43,6 +43,7 @@ private:
   void ReadReportsFromFile(const std::string &file);
 
   static int ManhattanDistance(int x1, int y1, int x2, int y2);
+  int findedLine{ 0 };
 
   void CheckAllPoints();
   void CheckAllPoints2(int checked_y);
