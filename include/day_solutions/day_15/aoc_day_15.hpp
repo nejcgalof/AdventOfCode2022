@@ -52,7 +52,7 @@ private:
 
   static constexpr int ManhattanDistance(int x1, int y1, int x2, int y2);
 
-  void CheckAllPoints();
+  int CheckAllPoints(int line);
   std::vector<Range> ranges;
   size_t CalculateLineRanges(int line);
   double CheckAllLines(int maxStep);

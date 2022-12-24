@@ -45,28 +45,12 @@ constexpr int AocDay15::ManhattanDistance(int x1, int y1, int x2, int y2)
   return std::abs(x1 - x2) + std::abs(y1 - y2);
 }
 
-void AocDay15::CheckAllPoints()
+int AocDay15::CheckAllPoints(int line)
 {
-  const int checked_y = 2000000;
-  for (const auto &report : reports) {
-    const int manhattan_distance =
-      ManhattanDistance(report.sensor.x, report.sensor.y, report.beacon.x, report.beacon.y);
-    for (int check = report.sensor.x; check >= report.sensor.x - manhattan_distance; check--) {
-      const int manhattan_distance_temp = ManhattanDistance(report.sensor.x, report.sensor.y, check, checked_y);
-      if (manhattan_distance_temp > manhattan_distance) { break; }
-      lineCoverage.insert(check);
-    }
-    for (int check = report.sensor.x; check <= report.sensor.x + manhattan_distance; check++) {
-      const int manhattan_distance_temp = ManhattanDistance(report.sensor.x, report.sensor.y, check, checked_y);
-      if (manhattan_distance_temp > manhattan_distance) { break; }
-      lineCoverage.insert(check);
-    }
-  }
-
-  for (const auto &report : reports) {
-    if (report.beacon.y == checked_y) { lineCoverage.erase(report.beacon.x); }
-    // if (report.sensor.y == checked_y) { lineCoverage.erase(report.sensor.x); }
-  }
+  size_t r = CalculateLineRanges(line);
+  int sum = 0;
+  for (size_t i = 0; i <= r; i++) { sum += (ranges[i].to - ranges[i].from) + 1; }
+  return sum - 1;
 }
 
 size_t AocDay15::CalculateLineRanges(int line)
@@ -111,8 +95,7 @@ std::variant<int, double, std::string> AocDay15::Part1([[maybe_unused]] const st
 {
   ReadReportsFromFile(file);
   if (reports.empty()) { return 0; }
-  CheckAllPoints();
-  return static_cast<int>(lineCoverage.size());
+  return CheckAllPoints(2000000);
 }
 
 std::variant<int, double, std::string> AocDay15::Part2([[maybe_unused]] const std::string &file,
