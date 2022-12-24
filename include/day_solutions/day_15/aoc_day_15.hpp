@@ -55,7 +55,7 @@ private:
   void CheckAllPoints();
   std::vector<Range> ranges;
   size_t CalculateLineRanges(int line);
-  double CheckAllLines();
+  double CheckAllLines(int maxStep);
 
 public:
   AocDay15();

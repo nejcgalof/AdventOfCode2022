@@ -36,11 +36,6 @@ void AocDay15::ReadReportsFromFile(const std::string &file)
       report.beacon.y = std::stoi(line.substr(0, line.size()));
       reports.emplace_back(report);
     }
-
-    /*for (const auto &report : reports) {
-      std::cout << "Sensor " << report.sensor.x << ", " << report.sensor.y;
-      std::cout << " Beacon " << report.beacon.x << ", " << report.beacon.y << std::endl;
-    }*/
     file_stream.close();
   }
 }
@@ -101,11 +96,12 @@ size_t AocDay15::CalculateLineRanges(int line)
   return r;
 }
 
-double AocDay15::CheckAllLines()
+double AocDay15::CheckAllLines(int maxStep)
 {
-  for (int step = 0; step <= 4000000; step++) {
-    auto r = CalculateLineRanges(step);
-    if (r > 0) { return static_cast<double>(ranges[0].to + 1) * 4000000 + static_cast<double>(step); }
+  for (int step = 0; step <= maxStep; step++) {
+    if (CalculateLineRanges(step) > 0) {
+      return static_cast<double>(ranges[0].to + 1) * 4000000 + static_cast<double>(step);
+    }
   }
   return 0;
 }
@@ -124,5 +120,5 @@ std::variant<int, double, std::string> AocDay15::Part2([[maybe_unused]] const st
 {
   ReadReportsFromFile(file);
   if (reports.empty()) { return 0; }
-  return CheckAllLines();
+  return CheckAllLines(4000000);
 }
