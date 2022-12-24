@@ -1,10 +1,8 @@
 #ifndef ADVENTOFCODE_AOC_DAY_15_HPP
 #define ADVENTOFCODE_AOC_DAY_15_HPP
 
-#include <map>
-#include <set>
+#include <cstddef>
 #include <string>
-#include <unordered_set>
 #include <variant>
 #include <vector>
 
