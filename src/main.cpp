@@ -19,8 +19,7 @@ int main(int argc, const char **argv)
   std::string file;
   app.add_option("-f,--file", file, "Input file");
   std::vector<std::variant<int, double, std::string>> arguments;
-  app.add_option<std::vector<std::variant<int, double, std::string>>>(
-    "-a,--arguments", arguments, "Add additional arguments for the puzzle");
+  app.add_option("-a,--arguments", arguments, "Add additional arguments for the puzzle");
 
   CLI11_PARSE(app, argc, argv);
 

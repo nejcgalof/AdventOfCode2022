@@ -98,7 +98,13 @@ std::variant<int, double, std::string> AocDay15::Part1([[maybe_unused]] const st
 {
   ReadReportsFromFile(file);
   if (reports.empty() || extraArgs.empty()) { return 0; }
-  return NonBeaconPositions(std::get<0>(extraArgs.at(0)));
+  int line = 0;
+  try {
+    line = std::get<int>(extraArgs.at(0));
+  } catch (const std::bad_variant_access &ex) {
+    line = std::stoi(std::get<std::string>(extraArgs.at(0)));
+  }
+  return NonBeaconPositions(line);
 }
 
 std::variant<int, double, std::string> AocDay15::Part2([[maybe_unused]] const std::string &file,
@@ -106,5 +112,11 @@ std::variant<int, double, std::string> AocDay15::Part2([[maybe_unused]] const st
 {
   ReadReportsFromFile(file);
   if (reports.empty() || extraArgs.empty()) { return 0; }
-  return CalculateTuningFrequency(std::get<0>(extraArgs.at(0)));
+  int max_step = 0;
+  try {
+    max_step = std::get<int>(extraArgs.at(0));
+  } catch (const std::bad_variant_access &ex) {
+    max_step = std::stoi(std::get<std::string>(extraArgs.at(0)));
+  }
+  return CalculateTuningFrequency(max_step);
 }

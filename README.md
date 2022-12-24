@@ -16,4 +16,5 @@ Options:
  Example of the call:
  ```
 ./AdventOfCode2022 -d 1 -p 1 -f "../../../../puzzle_inputs/day_01/puzzle.txt"
+./AdventOfCode2022 -d 15 -p 1 -f "../../../../puzzle_inputs/day_15/puzzle.txt" -a 2000000
  ```
