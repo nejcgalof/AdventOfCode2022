@@ -45,17 +45,13 @@ private:
   };
 
   std::vector<Report> reports;
-  std::vector<std::unordered_set<int>> allLineCoverages;
-  std::unordered_set<int> lineCoverage;
+  std::vector<Range> ranges;
 
   void ReadReportsFromFile(const std::string &file);
-
   static constexpr int ManhattanDistance(int x1, int y1, int x2, int y2);
-
-  int CheckAllPoints(int line);
-  std::vector<Range> ranges;
+  int NonBeaconPositions(int line);
   size_t CalculateLineRanges(int line);
-  double CheckAllLines(int maxStep);
+  double CalculateTuningFrequency(int maxStep);
 
 public:
   AocDay15();
