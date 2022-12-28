@@ -2,6 +2,7 @@
 #define ADVENTOFCODE_AOC_DAY_16_HPP
 
 #include <cstddef>
+#include <map>
 #include <string>
 #include <variant>
 #include <vector>
@@ -23,7 +24,7 @@ private:
     std::vector<std::string> neighbours;
   };
 
-  std::vector<Valve> valves;
+  std::map<std::string, Valve> valves;
 
   void ReadValvesFromFile(const std::string &file);
 

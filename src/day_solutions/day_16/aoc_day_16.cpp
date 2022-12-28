@@ -37,7 +37,7 @@ void AocDay16::ReadValvesFromFile(const std::string &file)
       valve.rate = std::stoi(line.substr(0, pos));
       line.erase(0, pos + delimeter.length());
       for (size_t i = 0; i < line.length(); i += 4) { valve.neighbours.emplace_back(line.substr(i, 2)); }
-      valves.emplace_back(valve);
+      valves.insert({ valve.name, valve });
     }
     file_stream.close();
   }
@@ -47,7 +47,7 @@ std::variant<int, double, std::string> AocDay16::Part1([[maybe_unused]] const st
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
   ReadValvesFromFile(file);
-  for (const auto &valve : valves) {
+  for (const auto &[name, valve] : valves) {
     std::cout << valve.name << std::endl;
     std::cout << valve.rate << std::endl;
     for (const auto &neigh : valve.neighbours) { std::cout << neigh << ","; }
