@@ -26,7 +26,7 @@ private:
   };
 
   std::map<std::string, Valve> valves;
-  std::vector<std::tuple<std::string, int, std::set<std::string>, int>> sameScenarios;
+  std::map<std::tuple<std::string, int, std::set<std::string>>, int> sameScenarios;
   int bestPressure{ 0 };
 
   void ReadValvesFromFile(const std::string &file);

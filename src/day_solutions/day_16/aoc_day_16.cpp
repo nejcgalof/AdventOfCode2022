@@ -50,15 +50,15 @@ void AocDay16::FindSolution(const std::string &currentValve,
   int pressure,
   std::set<std::string> openedValves)
 {
-  auto same_scenario = std::find_if(sameScenarios.begin(), sameScenarios.end(), [&](const auto &e) {
-    return std::get<0>(e) == currentValve && std::get<1>(e) == timeLeft && std::get<2>(e) == openedValves;
-  });
+  auto same_scenario = sameScenarios.find(std::make_tuple(currentValve, timeLeft, openedValves));
   if (same_scenario == sameScenarios.end()) {
-    sameScenarios.emplace_back(currentValve, timeLeft, openedValves, pressure);
-  } else if (same_scenario != sameScenarios.end() && std::get<3>(*same_scenario) < pressure) {
-    std::get<3>(*same_scenario) = pressure;
+    sameScenarios[std::make_tuple(currentValve, timeLeft, openedValves)] = pressure;
   } else {
-    return;
+    if (sameScenarios[std::make_tuple(currentValve, timeLeft, openedValves)] < pressure) {
+      sameScenarios[std::make_tuple(currentValve, timeLeft, openedValves)] = pressure;
+    } else {
+      return;
+    }
   }
 
   timeLeft--;
