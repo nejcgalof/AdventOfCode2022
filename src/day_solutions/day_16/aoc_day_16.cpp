@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <set>
+#include <stack>
 #include <variant>
 
 AocDay16::AocDay16() : AocDay(16) {}
@@ -34,26 +36,54 @@ void AocDay16::ReadValvesFromFile(const std::string &file)
         delimeter = "; tunnel leads to valve ";
         pos = line.find(delimeter);
       }
-      valve.rate = std::stoi(line.substr(0, pos));
+      valve.pressure = std::stoi(line.substr(0, pos));
       line.erase(0, pos + delimeter.length());
-      for (size_t i = 0; i < line.length(); i += 4) { valve.neighbours.emplace_back(line.substr(i, 2)); }
+      for (size_t i = 0; i < line.length(); i += 4) { valve.tunnels.emplace_back(line.substr(i, 2)); }
       valves.insert({ valve.name, valve });
     }
     file_stream.close();
   }
 }
 
+void AocDay16::FindSolution(const std::string &currentValve,
+  int timeLeft,
+  int pressure,
+  std::set<std::string> openedValves)
+{
+  auto same_scenario = std::find_if(sameScenarios.begin(), sameScenarios.end(), [&](const auto &e) {
+    return std::get<0>(e) == currentValve && std::get<1>(e) == timeLeft && std::get<2>(e) == openedValves;
+  });
+  if (same_scenario == sameScenarios.end()) {
+    sameScenarios.emplace_back(currentValve, timeLeft, openedValves, pressure);
+  } else if (same_scenario != sameScenarios.end() && std::get<3>(*same_scenario) < pressure) {
+    std::get<3>(*same_scenario) = pressure;
+  } else {
+    return;
+  }
+
+  timeLeft--;
+  if (timeLeft == 0) {
+    if (pressure > bestPressure) { bestPressure = pressure; }
+    return;
+  }
+
+  // Open
+  if (!openedValves.contains(currentValve) && valves.at(currentValve).pressure != 0) {
+    openedValves.insert(currentValve);
+    FindSolution(currentValve, timeLeft, pressure + valves.at(currentValve).pressure * timeLeft, openedValves);
+    openedValves.erase(currentValve);
+  }
+
+  // Move
+  for (const auto &neigh : valves.at(currentValve).tunnels) { FindSolution(neigh, timeLeft, pressure, openedValves); }
+}
+
 std::variant<int, double, std::string> AocDay16::Part1([[maybe_unused]] const std::string &file,
   [[maybe_unused]] const std::vector<std::variant<int, double, std::string>> &extraArgs)
 {
   ReadValvesFromFile(file);
-  for (const auto &[name, valve] : valves) {
-    std::cout << valve.name << std::endl;
-    std::cout << valve.rate << std::endl;
-    for (const auto &neigh : valve.neighbours) { std::cout << neigh << ","; }
-    std::cout << std::endl << "?????" << std::endl;
-  }
-  return 0;
+  FindSolution("AA", 30, 0, {});
+  return bestPressure;
 }
 
 std::variant<int, double, std::string> AocDay16::Part2([[maybe_unused]] const std::string &file,

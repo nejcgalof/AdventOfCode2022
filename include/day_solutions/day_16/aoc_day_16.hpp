@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <map>
+#include <set>
 #include <string>
 #include <variant>
 #include <vector>
@@ -20,13 +21,16 @@ private:
   struct Valve
   {
     std::string name;
-    int rate{ 0 };
-    std::vector<std::string> neighbours;
+    int pressure{ 0 };
+    std::vector<std::string> tunnels;
   };
 
   std::map<std::string, Valve> valves;
+  std::vector<std::tuple<std::string, int, std::set<std::string>, int>> sameScenarios;
+  int bestPressure{ 0 };
 
   void ReadValvesFromFile(const std::string &file);
+  void FindSolution(const std::string &currentValve, int timeLeft, int pressure, std::set<std::string> openedValves);
 
 public:
   AocDay16();
