@@ -21,16 +21,17 @@ private:
   struct Valve
   {
     std::string name;
+    int index{ 0 };
     int pressure{ 0 };
     std::vector<std::string> tunnels;
   };
 
   std::map<std::string, Valve> valves;
-  std::map<std::tuple<std::string, int, std::set<std::string>>, int> sameScenarios;
+  std::map<std::tuple<std::string, int, unsigned long>, int> sameScenarios;
   int bestPressure{ 0 };
 
   void ReadValvesFromFile(const std::string &file);
-  void FindSolution(const std::string &currentValve, int timeLeft, int pressure, std::set<std::string> openedValves);
+  void FindSolution(const std::string &currentValve, int timeLeft, int pressure, unsigned long openedValves);
 
 public:
   AocDay16();
