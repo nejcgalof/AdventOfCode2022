@@ -15,7 +15,7 @@ RUN apt-get update -qq && export DEBIAN_FRONTEND=noninteractive && \
 
 # Install conan
 RUN python3 -m pip install --upgrade pip setuptools && \
-    python3 -m pip install conan && \
+    python3 -m pip install conan==1.60.1 && \
     conan --version
 
 # Install cmake_format
