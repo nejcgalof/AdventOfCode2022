@@ -12,6 +12,7 @@ int main(int argc, const char **argv)
   fmt::print("Welcome to AdventOfCode2022\n");
   CLI::App app{ fmt::format("{} version {}", adventOfCode::cmake::project_name, adventOfCode::cmake::project_version) };
 
+  int k;
   int day = 0; // Start with 1
   app.add_option("-d,--day", day, "Select the day");
   int part = 0; // Start with 1
